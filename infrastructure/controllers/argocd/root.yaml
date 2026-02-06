@@ -11,6 +11,7 @@ spec:
     repoURL: https://github.com/mnrowe/talos-argocd-homelab.git # TODO: Replace with your repository URL
     path: infrastructure/controllers/argocd/apps
     targetRevision: HEAD
+    kustomize: {}
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
