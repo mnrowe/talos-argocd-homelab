@@ -12,6 +12,8 @@ spec:
       revision: main
       directories:
       - path: infrastructure/networking/gateway
+      - path: infrastructure/networking/cilium
+
   template:
     metadata:
       name: '{{path.basename}}'
