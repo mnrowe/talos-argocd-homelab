@@ -1,113 +1,129 @@
+# Global settings for the Argo CD chart
+global:
+  # Ingress is disabled; external access is managed via HTTPRoute
+  ingress:
+    enabled: false
+# ConfigMaps and feature flags
 configs:
-  cm:
-    create: true
-    application.resourceTrackingMethod: "annotation+label"
-  cmp:
-    create: true
-    plugins:
-      kustomize-build-with-helm:
-        generate:
-          command: [ "sh", "-c" ]
-          args: [ "kustomize build --enable-helm" ]
   params:
-    server.insecure: true
-
-crds:
-  install: true
-  # -- Keep CRDs on chart uninstall
-  keep: false
-
+    # This ensures the server knows it is running behind a gateway
+    # and should not handle TLS itself. This adds the --insecure flag
+    # to the argocd-server command.
+    server.insecure: "true"
+  cm:
+    # URL for the UI to use
+    url: "https://argocd.serverops.live"
+    # Enable Helm support in Kustomize builds
+    kustomize.buildOptions: "--enable-helm"
+    # Ignore Gateway API HTTPRoute parentRefs normalization
+    resource.customizations.ignoreDifferences.gateway.networking.k8s.io_HTTPRoute: |
+      jqPathExpressions:
+      - '.spec.parentRefs[]? | select(.group == null or .kind == null)'
+      jsonPointers:
+      - /spec/parentRefs
+    # Enable Application health check for app-of-apps sync waves
+    # This was removed in ArgoCD 1.8 but is needed for sync waves to work properly
+    resource.customizations.health.argoproj.io_Application: |
+      hs = {}
+      hs.status = "Progressing"
+      hs.message = ""
+      if obj.status ~= nil then
+        if obj.status.health ~= nil then
+          hs.status = obj.status.health.status
+          if obj.status.health.message ~= nil then
+            hs.message = obj.status.health.message
+          end
+        end
+      end
+      return hs
+    # Custom health checks for VolSync resources
+    resource.customizations.health.volsync.backube_ReplicationSource: |
+      hs = {}
+      if obj.status ~= nil then
+        if obj.status.lastSyncTime ~= nil then
+          hs.status = "Healthy"
+          hs.message = "Last sync: " .. obj.status.lastSyncTime
+          return hs
+        end
+      end
+      hs.status = "Progressing"
+      hs.message = "Waiting for first sync"
+      return hs
+    resource.customizations.health.volsync.backube_ReplicationDestination: |
+      hs = {}
+      if obj.status ~= nil and obj.status.latestImage ~= nil then
+        hs.status = "Healthy"
+        hs.message = "Ready for restore"
+        return hs
+      end
+      hs.status = "Progressing"
+      hs.message = "Initializing"
+      return hs
+# Argo CD server settings
+server:
+  # We are not using the chart's built-in ingress
+  ingress:
+    enabled: false
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+# ApplicationSet controller settings
+applicationSet:
+  enabled: true
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+# High Availability setup
+ha:
+  enabled: true
+  redis:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+# Argo CD controller settings
 controller:
   resources:
     requests:
-      cpu: 100m
-      memory: 700Mi
-    limits:
-      cpu: 4000m
-      memory: 2Gi
-
-dex:
-  resources:
-    requests:
-      cpu: 20m
-      memory: 64Mi
-    limits:
-      cpu: 1000m
-      memory: 256Mi
-
-redis:
-  resources:
-    requests:
-      cpu: 100m
-      memory: 64Mi
+      cpu: 500m
+      memory: 512Mi
     limits:
       cpu: 2000m
-      memory: 128Mi
-
-server:
-  resources:
-    requests:
-      cpu: 50m
-      memory: 64Mi
-    limits:
-      cpu: 4000m
-      memory: 256Mi
-
+      memory: 2Gi
+# Argo CD repo-server settings
 repoServer:
-  containerSecurityContext:
-    readOnlyRootFilesystem: true
-  volumes:
-    - name: cmp-kustomize-build-with-helm
-      configMap:
-        name: argocd-cmp-cm
-    - name: cmp-tmp
-      emptyDir: {}
   resources:
     requests:
-      cpu: 100m
-      memory: 256Mi
-    limits:
-      cpu: 4000m
-      memory: 1024Mi
-  extraContainers:
-    - name: kustomize-build-with-helm
-      command:
-        - argocd-cmp-server
-      image: '{{ default .Values.global.image.repository .Values.repoServer.image.repository }}:{{ default (include "argo-cd.defaultTag" .) .Values.repoServer.image.tag }}'
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 999
-        allowPrivilegeEscalation: false
-        readOnlyRootFilesystem: true
-        seccompProfile:
-          type: RuntimeDefault
-        capabilities:
-          drop: [ "ALL" ]
-      volumeMounts:
-        - name: plugins
-          mountPath: /home/argocd/cmp-server/plugins
-        - name: cmp-kustomize-build-with-helm
-          mountPath: /home/argocd/cmp-server/config/plugin.yaml
-          subPath: kustomize-build-with-helm.yaml
-        - mountPath: /tmp
-          name: cmp-tmp
-
-applicationSet:
-  resources:
-    requests:
-      cpu: 50m
-      memory: 64Mi
-    limits:
-      cpu: 1000m
+      cpu: 500m
       memory: 512Mi
-
-notifications:
-  enabled: false
-  resources:
-    requests:
-      cpu: 100m
-      memory: 64Mi
     limits:
-      cpu: 1000m
-      memory: 128Mi
-
+      cpu: 2000m
+      memory: 2Gi
+# Dex is disabled; external authentication (e.g. SSO) is used
+dex:
+  enabled: false
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+notifications:
+  enabled: true
+  secret:
+    create: true
+hpa:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
