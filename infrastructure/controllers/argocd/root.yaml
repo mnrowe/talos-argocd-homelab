@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/mnrowe/talos-argocd-homelab.git
-    path: infrastructure/argocd/apps
+    path: infrastructure/controllers/argocd/apps
     targetRevision: HEAD
   destination:
     server: https://kubernetes.default.svc

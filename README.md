@@ -42,14 +42,16 @@ kubectl create namespace argocd
 helm install argocd argo-cd \
   --repo https://argoproj.github.io/argo-helm \
   --namespace argocd \
-  --values infrastructure/argocd/values.yaml
-kubectl apply -f infrastructure/argocd/root.yaml
+  --values infrastructure/controllers/argocd/values.yaml
+kubectl apply -f infrastructure/controllers/argocd/root.yaml
 ```
 
 ## Structure
 
 ```
 infrastructure/
-├── argocd/          # ArgoCD installation & root app
-└── cilium/          # Cilium CNI configuration
+├── controllers/
+│   └── argocd/      # ArgoCD installation & root app
+└── networking/
+    └── cilium/      # Cilium CNI configuration
 ```
