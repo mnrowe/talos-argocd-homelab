@@ -1,6 +1,6 @@
 # Talos ArgoCD Homelab
 
-Minimal GitOps setup for Talos Kubernetes cluster with ArgoCD and Cilium.
+GitOps setup for Talos Kubernetes cluster with ArgoCD and Cilium.
 
 ## Prerequisites
 
