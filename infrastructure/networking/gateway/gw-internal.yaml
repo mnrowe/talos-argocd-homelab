@@ -22,15 +22,6 @@ spec:
       protocol: HTTPS
       port: 443
       hostname: "*.serverops.live"
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - name: cert-serverops
-            kind: Secret
-            group: "" # required
-        # No QUIC/HTTP3 for internal gateway - only HTTP/2 and HTTP/1.1
-        options:
-          gateway.networking.k8s.io/alpn-protocols: "h2,http/1.1"
       allowedRoutes:
         namespaces:
           from: All
