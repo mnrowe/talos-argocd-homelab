@@ -1,0 +1,19 @@
+server:
+  extraArgs:
+    - --insecure
+
+configs:
+  params:
+    server.insecure: true
+  
+  cm:
+    application.instanceLabelKey: argocd.argoproj.io/instance
+
+controller:
+  replicas: 1
+
+repoServer:
+  replicas: 1
+
+applicationSet:
+  enabled: true
