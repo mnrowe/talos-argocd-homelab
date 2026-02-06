@@ -11,6 +11,7 @@ spec:
       repoURL: https://github.com/mnrowe/talos-argocd-homelab.git
       revision: main
       directories:
+      - path: infrastructure/controllers/cert-manager
       - path: infrastructure/networking/gateway
       - path: infrastructure/networking/cilium
 

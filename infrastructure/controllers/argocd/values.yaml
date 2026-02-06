@@ -103,6 +103,32 @@ controller:
       memory: 2Gi
 # Argo CD repo-server settings
 repoServer:
+  env:
+  - name: SOPS_AGE_KEY_FILE
+    value: /helm-secrets-private-keys/keys.txt
+  - name: PATH
+    value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/custom-tools
+  volumes:
+  - name: sops-age-key
+    secret:
+      secretName: sops-age-key
+  - name: custom-tools
+    emptyDir: {}
+  volumeMounts:
+  - name: sops-age-key
+    mountPath: /helm-secrets-private-keys
+    readOnly: true
+  - name: custom-tools
+    mountPath: /custom-tools
+  initContainers:
+  - name: install-sops
+    image: ghcr.io/getsops/sops:v3.9.0-alpine
+    command: [sh, -c]
+    args:
+    - cp /usr/local/bin/sops /custom-tools/sops
+    volumeMounts:
+    - name: custom-tools
+      mountPath: /custom-tools
   resources:
     requests:
       cpu: 500m
