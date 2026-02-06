@@ -2,6 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - projects.yaml
+  - argocd.yaml
   # Critical applications with specific sync waves to prevent race conditions
   # Wave 0: Foundation components (networking + secrets infrastructure)
   - cilium-app.yaml        # Wave 0 - Networking foundation
