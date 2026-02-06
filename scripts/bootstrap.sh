@@ -40,6 +40,8 @@ kubectl wait --for=condition=Available deployment/argocd-server -n argocd --time
 echo ""
 echo "🔄 Deploying root application (enables self-management)..."
 kubectl apply -f "$ROOT_DIR/infrastructure/controllers/argocd/root.yaml"
+kubectl apply -f infrastructure/controllers/argocd/http-route.yaml
+
 
 echo ""
 echo "✅ ArgoCD bootstrap complete!"

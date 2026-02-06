@@ -18,13 +18,6 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-    - name: https
-      protocol: HTTPS
-      port: 443
-      hostname: "*.serverops.live"
-      allowedRoutes:
-        namespaces:
-          from: All
     # TCP listener for PostgreSQL
     - name: postgres
       protocol: TCP
