@@ -7,40 +7,13 @@ spec:
   sourcePVC: jellyfin-config
   trigger:
     schedule: "0 2 * * *"  # Daily at 2 AM
-  kopia:
-    repository: kopia-repository
+  restic:
+    repository: restic-repository
     retain:
       daily: 3
     volumeSnapshotClassName: longhorn-snapclass
     copyMethod: Snapshot
+    cacheCapacity: 1Gi
     moverSecurityContext:
       runAsUser: 1000
       fsGroup: 1000
-
-
-apiVersion: volsync.backube/v1alpha1
-kind: ReplicationSource
-metadata:
-  name: jellyfin-config-backup
-  namespace: jellyfin
-spec:
-  sourcePVC: jellyfin-config
-  trigger:
-    schedule: "0 *2 * * *"
-  kopia:
-    repository:
-      repositoryPVC: kopia-nfs-repo
-    storageClassName: longhorn
-    volumeSnapshotClassName: longhorn-snapclass
-
-    # --- Kopia tuning ---
-    cacheCapacity: 10Gi
-    cacheStorageClassName: longhorn
-
-    compression: zstd
-    encryption: aes256-gcm
-
-    moverSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
-

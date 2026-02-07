@@ -5,7 +5,8 @@ resources:
   - ns.yaml
   - jellyfin-config-pvc.yaml
   - media-pvc.yaml
-  - kopia-repository-pvc.yaml
+  - restic-repository-pvc.yaml
+  - restic-secret.yaml
   - deployment.yaml
   - service.yaml
   - http-route.yaml
