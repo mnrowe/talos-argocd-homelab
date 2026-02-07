@@ -13,7 +13,6 @@ spec:
       directories:
       - path: infrastructure/controllers/cert-manager
       - path: infrastructure/networking/gateway
-      - path: infrastructure/networking/cilium
 
   template:
     metadata:
