@@ -8,13 +8,25 @@ metadata:
 spec:
   addresses:
   - type: IPAddress
-    value: 192.168.5.85
+    value: 192.168.5.50
   gatewayClassName: cilium
   listeners:
     - name: http
       protocol: HTTP
       port: 80
       hostname: "*.serverops.live"
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "*.serverops.live"
+      tls:
+        mode: Terminate
+        certificateRefs:
+        - kind: Secret
+          name: serverops-live-tls
       allowedRoutes:
         namespaces:
           from: All

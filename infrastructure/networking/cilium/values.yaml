@@ -77,13 +77,9 @@ bpf:
   ctTcpTimeout: 21600 # 6 hours (default is 6 hours but explicit is better)
   ctAnyTimeout: 3600 # 1 hour for non-TCP connections
 
-# L2 Announcements for LoadBalancer Services
+# L2 Announcements - DISABLED (using MetalLB instead)
 l2announcements:
-  enabled: true
-  # Increase lease duration to reduce API calls
-  leaseDuration: "15s"
-  leaseRenewDeadline: "5s"
-  leaseRetryPeriod: "2s"
+  enabled: false
 
 # Enable XDP acceleration (REQUIRED for Talos L2 announcements)
 # Fixes kernel ARP dropping issue between XDP and TC in Talos 1.9+
@@ -107,6 +103,9 @@ gatewayAPI:
   # Enable session affinity for consistent routing
   sessionAffinity: true
   sessionAffinityTimeoutSeconds: 10800 # 3 hours
+  # Disable Cilium LB IPAM - let MetalLB handle it
+  hostNetwork:
+    enabled: false
 
 # Hubble (Observability)
 hubble:
