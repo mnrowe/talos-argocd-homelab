@@ -25,12 +25,16 @@ spec:
       containers:
         - name: kopia
           image: ghcr.io/home-operations/kopia:0.22.3
-          args:
-            - server
-            - start
-            - --insecure
-            - --without-password
-            - --address=0.0.0.0:80
+          command:
+            - /bin/sh
+            - -c
+            - |
+              if [ ! -f /config/repository.config ]; then
+                echo "No repository configured. Access web UI to set up."
+                kopia server start --insecure --without-password --address=0.0.0.0:80 --override-hostname=kopia-server --override-username=kopia
+              else
+                kopia server start --insecure --config-file=/config/repository.config --address=0.0.0.0:80
+              fi
           env:
             - name: USER
               value: "kopia"
