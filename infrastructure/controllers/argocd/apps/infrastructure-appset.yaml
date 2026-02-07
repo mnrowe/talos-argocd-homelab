@@ -15,6 +15,7 @@ spec:
       - path: infrastructure/networking/gateway
       - path: infrastructure/networking/cilium
       - path: infrastructure/storage/csi-driver-smb
+      - path: infrastructure/storage/kopia
       - path: infrastructure/storage/longhorn
       - path: infrastructure/storage/snapshot-controller
 
