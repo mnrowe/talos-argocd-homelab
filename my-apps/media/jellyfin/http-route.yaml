@@ -5,7 +5,7 @@ metadata:
   namespace: jellyfin
 spec:
   hostnames:
-  - qjelly.serverops.live
+  - jelly.serverops.live
   parentRefs:
   - group: gateway.networking.k8s.io
     kind: Gateway
