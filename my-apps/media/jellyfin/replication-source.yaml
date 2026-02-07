@@ -1,0 +1,13 @@
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: jellyfin-config-backup
+  namespace: jellyfin
+spec:
+  sourcePVC: jellyfin-config
+  trigger:
+    schedule: "0 2 * * *"  # Daily at 2 AM
+  kopia:
+    repository: kopia-repository
+    pruneInterval: 3  # Keep 3 days of backups
+    volumeSnapshotClassName: longhorn-snapclass
