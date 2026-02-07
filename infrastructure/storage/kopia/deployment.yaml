@@ -26,7 +26,11 @@ spec:
         - name: kopia
           image: ghcr.io/home-operations/kopia:0.22.3
           args:
+            - server
+            - start
+            - --insecure
             - --without-password
+            - --address=0.0.0.0:80
           env:
             - name: USER
               value: "kopia"
