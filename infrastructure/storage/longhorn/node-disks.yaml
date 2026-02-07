@@ -1,0 +1,55 @@
+# Longhorn Node Disk Configuration
+# These patches add additional disks to Longhorn nodes beyond the default /var/lib/longhorn
+# Applied after Longhorn creates the initial Node resources
+---
+apiVersion: longhorn.io/v1beta2
+kind: Node
+metadata:
+  name: talos-x45-tef
+  namespace: longhorn-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"  # Apply after Longhorn is running
+spec:
+  disks:
+    # Keep the default disk (Longhorn auto-creates this)
+    default-disk-080600000000:
+      allowScheduling: true
+      diskType: filesystem
+      evictionRequested: false
+      path: /var/lib/longhorn
+      storageReserved: 22222471168
+      tags: []
+    # Additional 275GB disk
+    sdb-disk:
+      allowScheduling: true
+      diskType: filesystem
+      evictionRequested: false
+      path: /var/mnt/longhorn-sdb
+      storageReserved: 27500000000  # 10% reserved
+      tags: []
+---
+apiVersion: longhorn.io/v1beta2
+kind: Node
+metadata:
+  name: talos-ujt-i5w
+  namespace: longhorn-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  disks:
+    # Keep the default disk
+    default-disk-080400000000:
+      allowScheduling: true
+      diskType: filesystem
+      evictionRequested: false
+      path: /var/lib/longhorn
+      storageReserved: 124388687872
+      tags: []
+    # Additional 512GB NVMe disk
+    nvme-disk:
+      allowScheduling: true
+      diskType: filesystem
+      evictionRequested: false
+      path: /var/mnt/longhorn-nvme
+      storageReserved: 51200000000  # 10% reserved
+      tags: []
