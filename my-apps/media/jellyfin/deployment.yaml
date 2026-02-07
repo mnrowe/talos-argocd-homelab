@@ -31,6 +31,8 @@ spec:
           mountPath: /config
         - name: cache
           mountPath: /cache
+        - name: media
+          mountPath: /media
         - name: dri
           mountPath: /dev/dri
         resources:
@@ -49,6 +51,9 @@ spec:
       - name: cache
         persistentVolumeClaim:
           claimName: jellyfin-cache
+      - name: media
+        persistentVolumeClaim:
+          claimName: jellyfin-media
       - name: dri
         hostPath:
           path: /dev/dri

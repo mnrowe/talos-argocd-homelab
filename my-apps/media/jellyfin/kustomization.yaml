@@ -4,6 +4,7 @@ namespace: jellyfin
 resources:
   - ns.yaml
   - pvc.yaml
+  - media-pvc.yaml
   - deployment.yaml
   - service.yaml
   - http-route.yaml
