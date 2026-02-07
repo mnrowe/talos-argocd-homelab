@@ -16,7 +16,7 @@ spec:
         app: jellyfin
     spec:
       nodeSelector:
-        kubernetes.io/hostname: talos-yvd-ywo  # Node 105
+        kubernetes.io/hostname: talos-8q9-9js  # Node 105
       containers:
       - name: jellyfin
         image: jellyfin/jellyfin:latest
