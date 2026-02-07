@@ -14,7 +14,10 @@ spec:
       - path: infrastructure/controllers/cert-manager
       - path: infrastructure/networking/gateway
       - path: infrastructure/networking/cilium
+      - path: infrastructure/storage/longhorn
       - path: infrastructure/storage/csi-driver-smb
+      - path: infrastructure/storage/snapshot-controller
+      - path: infrastructure/storage/volsync
       - path: infrastructure/storage/kopia
       - path: infrastructure/storage/longhorn
       - path: infrastructure/storage/snapshot-controller
