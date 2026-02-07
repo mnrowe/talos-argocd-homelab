@@ -7,13 +7,9 @@ spec:
   sourcePVC: jellyfin-config
   trigger:
     schedule: "0 2 * * *"  # Daily at 2 AM
-  restic:
-    repository: restic-repository
-    retain:
-      daily: 3
-    volumeSnapshotClassName: longhorn-snapclass
+  rsync:
+    sshKeys: rsync-ssh-secret
+    address: 192.168.5.10
+    path: /mnt/pool/share/jellyfin-backups
     copyMethod: Snapshot
-    cacheCapacity: 1Gi
-    moverSecurityContext:
-      runAsUser: 1000
-      fsGroup: 1000
+    volumeSnapshotClassName: longhorn-snapclass
