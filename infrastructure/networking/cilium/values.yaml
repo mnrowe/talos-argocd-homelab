@@ -105,13 +105,8 @@ k8sClientRateLimit:
 # Gateway API Support
 gatewayAPI:
   enabled: true
-  # CRITICAL FIX: Use Local externalTrafficPolicy to preserve source IP
-  # and enable proper connection tracking. This fixes intermittent connectivity.
-  externalTrafficPolicy: Local
-  # Enable session affinity for consistent routing
-  sessionAffinity: true
-  sessionAffinityTimeoutSeconds: 10800 # 3 hours
-  # Disable Cilium LB IPAM - let MetalLB handle it
+  # Use Cluster mode for L2 announcements to work properly
+  externalTrafficPolicy: Cluster
   hostNetwork:
     enabled: false
 
