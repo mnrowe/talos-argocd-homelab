@@ -3,8 +3,9 @@ kind: Kustomization
 namespace: jellyfin
 resources:
   - ns.yaml
-  - pvc.yaml
+  - jellyfin-config-pvc.yaml
   - media-pvc.yaml
+  - kopia-repository-pvc.yaml
   - deployment.yaml
   - service.yaml
   - http-route.yaml

@@ -9,6 +9,7 @@ spec:
     schedule: "0 2 * * *"  # Daily at 2 AM
   kopia:
     repository: kopia-repository
+    repositoryPVC: kopia-repository
     retain:
       daily: 3
     volumeSnapshotClassName: longhorn-snapclass
