@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kopia-ui-config
+  namespace: kopia
+data:
+  repository.config: |
+    {
+      "storage": {
+        "type": "filesystem",
+        "config": {
+          "path": "/repository"
+        }
+      }
+    }

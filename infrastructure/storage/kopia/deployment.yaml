@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kopia-ui
-  namespace: kopia-ui
+  namespace: kopia
   labels:
     app.kubernetes.io/name: kopia-ui
 spec:
@@ -35,7 +35,7 @@ spec:
             - name: KOPIA_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: kopia-ui-secret
+                  name: kopia-ui-credentials
                   key: KOPIA_PASSWORD
             - name: TZ
               value: "America/New_York"
@@ -99,7 +99,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: kopia-ui
-  namespace: kopia-ui
+  namespace: kopia
   labels:
     app.kubernetes.io/name: kopia-ui
 spec:
