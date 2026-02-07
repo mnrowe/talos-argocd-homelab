@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: longhorn-system
 resources:
   - ns.yaml
-  - httproute.yaml
+  - http-route.yaml
   - volumesnapshotclass.yaml
   - node-failure-settings.yaml
 helmCharts:
