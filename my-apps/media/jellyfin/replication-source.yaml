@@ -9,5 +9,6 @@ spec:
     schedule: "0 2 * * *"  # Daily at 2 AM
   kopia:
     repository: kopia-repository
-    pruneInterval: 3  # Keep 3 days of backups
+    retain:
+      daily: 3
     volumeSnapshotClassName: longhorn-snapclass
