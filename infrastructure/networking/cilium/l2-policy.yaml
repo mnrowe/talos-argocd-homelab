@@ -14,7 +14,7 @@ spec:
 
   # Announce LoadBalancer IPs on the physical network interface
   interfaces:
-    - ^eno[0-9]+
+    - ^eth[0-9]+
 
 
   # Announce for all LoadBalancer services
