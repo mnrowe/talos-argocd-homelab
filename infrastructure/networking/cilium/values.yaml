@@ -84,6 +84,11 @@ l2announcements:
   leaseRenewDeadline: "5s"
   leaseRetryPeriod: "2s"
 
+# Enable L2 neighbor discovery for ARP responses
+l2NeighDiscovery:
+  enabled: true
+  refreshPeriod: "30s"
+
 # Enable XDP acceleration (REQUIRED for Talos L2 announcements)
 # Fixes kernel ARP dropping issue between XDP and TC in Talos 1.9+
 # See: https://github.com/cilium/cilium/discussions/36829
