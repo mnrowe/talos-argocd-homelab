@@ -8,21 +8,12 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 192.168.5.10
+    path: /mnt/main/nfs-share
   mountOptions:
-    - dir_mode=0777
-    - file_mode=0777
-    - vers=3.0
-    - uid=1000
-    - gid=1000
-  csi:
-    driver: smb.csi.k8s.io
-    readOnly: false
-    volumeHandle: jellyfin-media
-    volumeAttributes:
-      source: "//192.168.5.10/smb-share"
-    nodeStageSecretRef:
-      name: smb-credentials
-      namespace: csi-driver-smb
+    - nfsvers=4.2
+    - hard
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
