@@ -5,7 +5,7 @@ metadata:
   namespace: ollama
 spec:
   parentRefs:
-  - name: gateway
+  - name: gateway-internal
     namespace: gateway
   hostnames:
   - "ai.serverops.live"
