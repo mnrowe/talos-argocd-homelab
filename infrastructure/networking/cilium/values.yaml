@@ -54,7 +54,7 @@ cgroup:
 # Routing Configuration
 routingMode: native
 autoDirectNodeRoutes: true
-ipv4NativeRoutingCIDR: 192.168.5.0/24
+ipv4NativeRoutingCIDR: 10.244.0.0/16
 
 # IPAM Configuration
 ipam:
