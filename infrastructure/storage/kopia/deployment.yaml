@@ -80,6 +80,8 @@ spec:
           volumeMounts:
             - name: repository
               mountPath: /repository
+            - name: config
+              mountPath: /config
             - name: cache
               mountPath: /config/cache
             - name: logs
@@ -91,6 +93,8 @@ spec:
           nfs:
             server: 192.168.5.10
             path: /mnt/pool/nfs-share
+        - name: config
+          emptyDir: {}
         - name: cache
           emptyDir: {}
         - name: logs
