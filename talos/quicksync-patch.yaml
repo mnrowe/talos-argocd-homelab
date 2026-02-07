@@ -1,0 +1,17 @@
+# Talos Machine Config Patch for Intel QuickSync
+# Exposes /dev/dri for hardware transcoding (Plex, Jellyfin, etc.)
+# Apply with: talosctl -n <node-ip> patch machineconfig --patch @talos/quicksync-patch.yaml
+
+machine:
+  kernel:
+    modules:
+      - name: i915  # Intel GPU driver
+  kubelet:
+    extraMounts:
+      - destination: /dev/dri
+        type: bind
+        source: /dev/dri
+        options:
+          - bind
+          - rshared
+          - rw

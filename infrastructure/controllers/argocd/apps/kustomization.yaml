@@ -9,6 +9,7 @@ resources:
   #- external-secrets.yaml  # Wave 0 - External Secrets CRDs (required by Longhorn)
   - longhorn-app.yaml      # Wave 1 - Storage foundation
   - snapshot-controller-app.yaml # Wave 1 - VolumeSnapshot controller + CRDs
+  - jellyfin-app.yaml      # Wave 3 - Media server with QuickSync
   #- volsync-app.yaml       # Wave 1 - PVC backup and replication (Kopia + NFS)
   #- pvc-plumber-app.yaml   # Wave 2 - Backup existence checker for restore
   # ApplicationSets for automatic discovery
