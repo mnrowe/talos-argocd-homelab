@@ -12,3 +12,4 @@ spec:
     retain:
       daily: 3
     volumeSnapshotClassName: longhorn-snapclass
+    copyMethod: Snapshot
