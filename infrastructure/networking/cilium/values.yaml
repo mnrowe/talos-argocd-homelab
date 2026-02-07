@@ -77,9 +77,12 @@ bpf:
   ctTcpTimeout: 21600 # 6 hours (default is 6 hours but explicit is better)
   ctAnyTimeout: 3600 # 1 hour for non-TCP connections
 
-# L2 Announcements - DISABLED (using MetalLB instead)
+# L2 Announcements for LoadBalancer Services
 l2announcements:
-  enabled: false
+  enabled: true
+  leaseDuration: "15s"
+  leaseRenewDeadline: "5s"
+  leaseRetryPeriod: "2s"
 
 # Enable XDP acceleration (REQUIRED for Talos L2 announcements)
 # Fixes kernel ARP dropping issue between XDP and TC in Talos 1.9+

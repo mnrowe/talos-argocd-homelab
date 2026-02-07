@@ -9,6 +9,7 @@ kind: Kustomization
 resources:
  - ip-pool.yaml
  - l2-policy.yaml
+ - l2-rbac.yaml
   #- policies/block-lan-access.yaml
 
 helmCharts:
