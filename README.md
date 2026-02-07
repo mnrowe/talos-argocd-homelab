@@ -185,7 +185,7 @@ kubectl get svc -n gateway cilium-gateway-gateway-internal
 ### View certificates
 ```bash
 kubectl get certificate -A
-kubectl describe certificate -n gateway serverops-live-wildcard
+kubectl describe certificate -n <namespace> <certificate-name>
 ```
 
 ## 🐛 Troubleshooting
