@@ -12,4 +12,5 @@ helmCharts:
 resources:
   - ns.yaml
   - storage-class.yaml
+  - smb-secret.yaml
 
