@@ -17,6 +17,8 @@ configs:
     kustomize.buildOptions: "--enable-helm"
     # Additional user accounts
     accounts.rwe: apiKey, login
+    # Disable default admin account
+    admin.enabled: "false"
     # Ignore Gateway API HTTPRoute parentRefs normalization
     resource.customizations.ignoreDifferences.gateway.networking.k8s.io_HTTPRoute: |
       jqPathExpressions:
