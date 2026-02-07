@@ -28,6 +28,8 @@ spec:
           args:
             - --without-password
           env:
+            - name: USER
+              value: "kopia"
             - name: KOPIA_WEB_ENABLED
               value: "true"
             - name: KOPIA_WEB_PORT
