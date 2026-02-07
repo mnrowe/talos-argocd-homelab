@@ -36,7 +36,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: kopia-ui-credentials
-                  key: KOPIA_PASSWORD
+                  key: password
             - name: TZ
               value: "America/New_York"
           ports:
