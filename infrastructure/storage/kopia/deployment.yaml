@@ -26,15 +26,14 @@ spec:
         - name: kopia
           image: ghcr.io/home-operations/kopia:0.22.3
           command:
-            - /bin/sh
-            - -c
-            - |
-              if [ ! -f /config/repository.config ]; then
-                echo "No repository configured. Access web UI to set up."
-                kopia server start --insecure --without-password --address=0.0.0.0:80 --override-hostname=kopia-server --override-username=kopia
-              else
-                kopia server start --insecure --config-file=/config/repository.config --address=0.0.0.0:80
-              fi
+            - kopia
+            - server
+            - start
+            - --insecure
+            - --without-password
+            - --address=0.0.0.0:80
+            - --override-hostname=kopia-server
+            - --override-username=kopia
           env:
             - name: USER
               value: "kopia"
@@ -81,9 +80,6 @@ spec:
           volumeMounts:
             - name: repository
               mountPath: /repository
-            - name: config
-              mountPath: /config/repository.config
-              subPath: repository.config
             - name: cache
               mountPath: /config/cache
             - name: logs
@@ -95,9 +91,6 @@ spec:
           nfs:
             server: 192.168.5.10
             path: /mnt/pool/nfs-share
-        - name: config
-          configMap:
-            name: kopia-ui-config
         - name: cache
           emptyDir: {}
         - name: logs
