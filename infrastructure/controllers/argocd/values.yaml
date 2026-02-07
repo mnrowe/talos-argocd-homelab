@@ -15,6 +15,8 @@ configs:
     url: "https://argocd.serverops.live"
     # Enable Helm support in Kustomize builds
     kustomize.buildOptions: "--enable-helm"
+    # Additional user accounts
+    accounts.yourname: apiKey, login
     # Ignore Gateway API HTTPRoute parentRefs normalization
     resource.customizations.ignoreDifferences.gateway.networking.k8s.io_HTTPRoute: |
       jqPathExpressions:
@@ -59,6 +61,17 @@ configs:
       hs.status = "Progressing"
       hs.message = "Initializing"
       return hs
+  rbac:
+    policy.default: role:readonly
+    policy.csv: |
+      p, role:admin, applications, *, */*, allow
+      p, role:admin, clusters, *, *, allow
+      p, role:admin, repositories, *, *, allow
+      p, role:admin, accounts, *, *, allow
+      p, role:admin, projects, *, *, allow
+      p, role:admin, certificates, *, *, allow
+      p, role:admin, gpgkeys, *, *, allow
+      g, yourname, role:admin
 # Argo CD server settings
 server:
   # We are not using the chart's built-in ingress
