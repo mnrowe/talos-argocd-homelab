@@ -83,8 +83,8 @@ spec:
       volumes:
         - name: repository
           nfs:
-            server: 192.168.10.133
-            path: /mnt/BigTank/k8s/volsync-kopia-nfs
+            server: 192.168.5.10
+            path: /mnt/pool/nfs-share
         - name: config
           configMap:
             name: kopia-ui-config
