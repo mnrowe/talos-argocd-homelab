@@ -16,3 +16,6 @@ spec:
       daily: 3
     volumeSnapshotClassName: longhorn-snapclass
     copyMethod: Snapshot
+    moverSecurityContext:
+      runAsUser: 1000
+      fsGroup: 1000
