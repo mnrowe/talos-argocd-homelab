@@ -13,10 +13,10 @@ GitOps-managed Kubernetes homelab running on Talos Linux with ArgoCD, Cilium, an
 
 ## 🌐 Network Setup
 
-- **Cluster VLAN**: 192.168.5.0/24 (nodes: .103-.105)
-- **LoadBalancer IP**: 192.168.5.50 (Cilium L2 announcements)
-- **Domain**: *.serverops.live (wildcard TLS certificate)
-- **Access**: https://argocd.serverops.live
+- **Cluster VLAN**: <your-cluster-subnet> (e.g., 192.168.1.0/24)
+- **LoadBalancer IP**: <your-loadbalancer-ip> (from your IP pool)
+- **Domain**: *.<your-domain> (wildcard TLS certificate)
+- **Access**: https://argocd.<your-domain>
 
 ## 📋 Prerequisites
 
@@ -108,7 +108,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
   -o jsonpath="{.data.password}" | base64 -d
 ```
 
-Access at: https://argocd.serverops.live
+Access at: https://argocd.<your-domain>
 
 ## 📁 Repository Structure
 
@@ -163,7 +163,7 @@ sops path/to/secret.yaml
 ```bash
 # Via UI: User Icon → User Info → Update Password
 # Or via CLI:
-argocd login argocd.serverops.live
+argocd login argocd.<your-domain>
 argocd account update-password
 ```
 
