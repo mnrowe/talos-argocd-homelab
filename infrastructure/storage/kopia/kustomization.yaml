@@ -7,5 +7,5 @@ resources:
   - secret.yaml
   - configmap.yaml
   - deployment.yaml
-  - httproute.yaml
+  - http-route.yaml
 
