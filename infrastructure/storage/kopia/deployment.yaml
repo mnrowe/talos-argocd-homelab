@@ -92,7 +92,7 @@ spec:
         - name: repository
           nfs:
             server: 192.168.5.10
-            path: /mnt/pool/nfs-share
+            path: /mnt/pool/share/kopia-repository
         - name: config
           emptyDir: {}
         - name: cache

@@ -10,7 +10,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: 192.168.5.10
-    path: /mnt/pool/nfs-share
+    path: /mnt/pool/share
   mountOptions:
     - nfsvers=3
     - hard
