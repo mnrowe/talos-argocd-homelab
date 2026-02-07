@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: kopia
 resources:
   - ns.yaml
-  - secret.yaml
   - configmap.yaml
   - deployment.yaml
   - http-route.yaml
