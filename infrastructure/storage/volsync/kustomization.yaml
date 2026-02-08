@@ -4,7 +4,8 @@ namespace: volsync-system
 resources:
   - ns.yaml
   - volumesnapshotclass.yaml
-  - volsync-kopia-secret.yaml
+  # Secret manually applied via: sops --decrypt volsync-kopia-secret.yaml | kubectl apply -f -
+  # - volsync-kopia-secret.yaml
 helmCharts:
   - name: volsync
     repo: https://perfectra1n.github.io/volsync/charts
