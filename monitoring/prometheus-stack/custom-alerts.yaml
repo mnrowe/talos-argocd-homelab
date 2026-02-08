@@ -1,0 +1,173 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: custom-cluster-alerts
+  namespace: prometheus-stack
+  labels:
+    prometheus: kube-prometheus-stack
+spec:
+  groups:
+  - name: node-alerts
+    interval: 30s
+    rules:
+    - alert: NodeNotReady
+      expr: kube_node_status_condition{condition="Ready",status="true"} == 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Node {{ $labels.node }} is not ready"
+        description: "Node {{ $labels.node }} has been in NotReady state for more than 5 minutes"
+
+    - alert: NodeMemoryPressure
+      expr: kube_node_status_condition{condition="MemoryPressure",status="true"} == 1
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Node {{ $labels.node }} is under memory pressure"
+        description: "Node {{ $labels.node }} has memory pressure for more than 5 minutes"
+
+    - alert: NodeDiskPressure
+      expr: kube_node_status_condition{condition="DiskPressure",status="true"} == 1
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Node {{ $labels.node }} is under disk pressure"
+        description: "Node {{ $labels.node }} has disk pressure for more than 5 minutes"
+
+    - alert: NodeMemoryHigh
+      expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Node {{ $labels.node }} memory usage is high"
+        description: "Node {{ $labels.node }} memory usage is above 85%"
+
+    - alert: NodeMemoryCritical
+      expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 90
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Node {{ $labels.node }} memory usage is critical"
+        description: "Node {{ $labels.node }} memory usage is above 90%"
+
+    - alert: NodeDiskSpaceWarning
+      expr: (1 - (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"})) * 100 > 85
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Node {{ $labels.node }} disk usage is high"
+        description: "Node {{ $labels.node }} root filesystem usage is above 85%"
+
+    - alert: NodeDiskSpaceCritical
+      expr: (1 - (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"})) * 100 > 90
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Node {{ $labels.node }} disk usage is critical"
+        description: "Node {{ $labels.node }} root filesystem usage is above 90%"
+
+  - name: pod-alerts
+    interval: 30s
+    rules:
+    - alert: PodCrashLooping
+      expr: rate(kube_pod_container_status_restarts_total[10m]) > 0.5
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is crash looping"
+        description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} has restarted more than 5 times in 10 minutes"
+
+    - alert: PodNotReady
+      expr: kube_pod_status_phase{phase!~"Succeeded|Running"} == 1
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is not ready"
+        description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} has been in non-ready state for more than 5 minutes"
+
+  - name: storage-alerts
+    interval: 30s
+    rules:
+    - alert: PVCAlmostFull
+      expr: (kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes) * 100 > 85
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "PVC {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is almost full"
+        description: "PVC {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is more than 85% full"
+
+    - alert: PVCFull
+      expr: (kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes) * 100 > 90
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "PVC {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is critically full"
+        description: "PVC {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is more than 90% full"
+
+    - alert: LonghornVolumeUnhealthy
+      expr: longhorn_volume_robustness == 2
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Longhorn volume {{ $labels.volume }} is unhealthy"
+        description: "Longhorn volume {{ $labels.volume }} is in degraded or faulted state"
+
+    - alert: LonghornNodeDown
+      expr: longhorn_node_status == 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Longhorn node {{ $labels.node }} is down"
+        description: "Longhorn node {{ $labels.node }} is not responding"
+
+  - name: infrastructure-alerts
+    interval: 30s
+    rules:
+    - alert: ArgoCDAppOutOfSync
+      expr: argocd_app_info{sync_status!="Synced"} == 1
+      for: 10m
+      labels:
+        severity: warning
+      annotations:
+        summary: "ArgoCD application {{ $labels.name }} is out of sync"
+        description: "ArgoCD application {{ $labels.name }} in namespace {{ $labels.namespace }} has been out of sync for more than 10 minutes"
+
+    - alert: ArgoCDAppUnhealthy
+      expr: argocd_app_info{health_status!="Healthy"} == 1
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "ArgoCD application {{ $labels.name }} is unhealthy"
+        description: "ArgoCD application {{ $labels.name }} in namespace {{ $labels.namespace }} is not in healthy state"
+
+    - alert: PrometheusConfigReloadFailed
+      expr: prometheus_config_last_reload_successful == 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Prometheus configuration reload failed"
+        description: "Prometheus has failed to reload its configuration"
+
+    - alert: AlertmanagerConfigReloadFailed
+      expr: alertmanager_config_last_reload_successful == 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Alertmanager configuration reload failed"
+        description: "Alertmanager has failed to reload its configuration"

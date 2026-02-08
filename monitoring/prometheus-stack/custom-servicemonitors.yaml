@@ -1,0 +1,125 @@
+---
+# ArgoCD Server Metrics
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: argocd-server-metrics
+  namespace: prometheus-stack
+  labels:
+    app.kubernetes.io/name: argocd-server
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: argocd-server
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+  namespaceSelector:
+    matchNames:
+    - argocd
+
+---
+# ArgoCD Application Controller Metrics
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: argocd-application-controller-metrics
+  namespace: prometheus-stack
+  labels:
+    app.kubernetes.io/name: argocd-application-controller
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: argocd-application-controller
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+  namespaceSelector:
+    matchNames:
+    - argocd
+
+---
+# ArgoCD Repo Server Metrics
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: argocd-repo-server-metrics
+  namespace: prometheus-stack
+  labels:
+    app.kubernetes.io/name: argocd-repo-server
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: argocd-repo-server
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+  namespaceSelector:
+    matchNames:
+    - argocd
+
+---
+# Longhorn Manager Metrics
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: longhorn-metrics
+  namespace: prometheus-stack
+  labels:
+    app: longhorn-manager
+spec:
+  selector:
+    matchLabels:
+      app: longhorn-manager
+  endpoints:
+  - port: manager
+    interval: 30s
+    path: /metrics
+  namespaceSelector:
+    matchNames:
+    - longhorn-system
+
+---
+# Cilium Agent Metrics
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: cilium-agent-metrics
+  namespace: prometheus-stack
+  labels:
+    app.kubernetes.io/name: cilium-agent
+spec:
+  selector:
+    matchLabels:
+      k8s-app: cilium
+  endpoints:
+  - port: prometheus
+    interval: 30s
+    path: /metrics
+  namespaceSelector:
+    matchNames:
+    - kube-system
+
+---
+# Cilium Operator Metrics
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: cilium-operator-metrics
+  namespace: prometheus-stack
+  labels:
+    app.kubernetes.io/name: cilium-operator
+spec:
+  selector:
+    matchLabels:
+      name: cilium-operator
+  endpoints:
+  - port: prometheus
+    interval: 30s
+    path: /metrics
+  namespaceSelector:
+    matchNames:
+    - kube-system

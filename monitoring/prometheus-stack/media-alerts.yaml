@@ -1,0 +1,146 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: media-app-alerts
+  namespace: prometheus-stack
+  labels:
+    prometheus: kube-prometheus-stack
+spec:
+  groups:
+  - name: media-health-alerts
+    interval: 60s
+    rules:
+    - alert: RadarrDown
+      expr: up{job="exportarr-radarr"} == 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Radarr is down"
+        description: "Radarr has been unreachable for more than 5 minutes"
+
+    - alert: SonarrDown
+      expr: up{job="exportarr-sonarr"} == 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Sonarr is down"
+        description: "Sonarr has been unreachable for more than 5 minutes"
+
+    - alert: JellyseerrDown
+      expr: up{job="exportarr-jellyseerr"} == 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Jellyseerr is down"
+        description: "Jellyseerr has been unreachable for more than 5 minutes"
+
+    - alert: QBittorrentDown
+      expr: up{job="qbittorrent-exporter"} == 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "qBittorrent is down"
+        description: "qBittorrent has been unreachable for more than 5 minutes"
+
+  - name: media-queue-alerts
+    interval: 60s
+    rules:
+    - alert: RadarrQueueStalled
+      expr: radarr_queue_total > 0 and radarr_queue_total == radarr_queue_total offset 6h
+      for: 30m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Radarr download queue appears stalled"
+        description: "Radarr has {{ $value }} items in queue with no progress for 6 hours"
+
+    - alert: SonarrQueueStalled
+      expr: sonarr_queue_total > 0 and sonarr_queue_total == sonarr_queue_total offset 6h
+      for: 30m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Sonarr download queue appears stalled"
+        description: "Sonarr has {{ $value }} items in queue with no progress for 6 hours"
+
+    - alert: RadarrImportFailures
+      expr: radarr_queue_failed > 5
+      for: 15m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Radarr has failed imports"
+        description: "Radarr has {{ $value }} failed imports in the queue"
+
+    - alert: SonarrImportFailures
+      expr: sonarr_queue_failed > 5
+      for: 15m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Sonarr has failed imports"
+        description: "Sonarr has {{ $value }} failed imports in the queue"
+
+  - name: media-activity-alerts
+    interval: 60s
+    rules:
+    - alert: RadarrNoActivity
+      expr: changes(radarr_movie_downloaded_total[24h]) == 0 and radarr_queue_total == 0
+      for: 24h
+      labels:
+        severity: info
+      annotations:
+        summary: "Radarr has had no activity for 24 hours"
+        description: "Radarr has not downloaded any movies and has no items in queue for 24 hours"
+
+    - alert: SonarrNoActivity
+      expr: changes(sonarr_episode_downloaded_total[24h]) == 0 and sonarr_queue_total == 0
+      for: 24h
+      labels:
+        severity: info
+      annotations:
+        summary: "Sonarr has had no activity for 24 hours"
+        description: "Sonarr has not downloaded any episodes and has no items in queue for 24 hours"
+
+  - name: qbittorrent-alerts
+    interval: 60s
+    rules:
+    - alert: QBittorrentHighActiveTorrents
+      expr: qbittorrent_torrents_count{status="downloading"} > 50
+      for: 10m
+      labels:
+        severity: warning
+      annotations:
+        summary: "qBittorrent has high number of active downloads"
+        description: "qBittorrent has {{ $value }} active torrents downloading"
+
+    - alert: QBittorrentStalledTorrents
+      expr: qbittorrent_torrents_count{status="stalled_downloading"} > 10
+      for: 30m
+      labels:
+        severity: warning
+      annotations:
+        summary: "qBittorrent has stalled torrents"
+        description: "qBittorrent has {{ $value }} stalled torrents"
+
+    - alert: QBittorrentDiskSpaceWarning
+      expr: qbittorrent_global_free_space_bytes < 50 * 1024 * 1024 * 1024
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "qBittorrent download location has low disk space"
+        description: "qBittorrent download location has less than 50GB free space"
+
+    - alert: QBittorrentDiskSpaceCritical
+      expr: qbittorrent_global_free_space_bytes < 10 * 1024 * 1024 * 1024
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "qBittorrent download location is critically low on disk space"
+        description: "qBittorrent download location has less than 10GB free space"

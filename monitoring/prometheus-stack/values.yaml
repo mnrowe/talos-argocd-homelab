@@ -1,0 +1,263 @@
+# kube-prometheus-stack configuration
+# Adapted for talos-argocd-homelab cluster
+
+# Global settings
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+
+# CRD Configuration
+crds:
+  enabled: true
+
+# Prometheus Configuration
+prometheus:
+  enabled: true
+  prometheusSpec:
+    # Data retention and storage
+    retention: 15d
+    retentionSize: 15GB
+    walCompression: true
+
+    # Storage configuration with Longhorn
+    storageSpec:
+      volumeClaimTemplate:
+        metadata:
+          annotations:
+            longhorn.io/recurring-job-source: enabled
+            longhorn.io/recurring-job-group: important
+            volume.beta.kubernetes.io/storage-provisioner: driver.longhorn.io
+        spec:
+          storageClassName: longhorn
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 20Gi
+
+    # Resource allocation
+    resources:
+      requests:
+        cpu: 500m
+        memory: 2Gi
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+
+    # Security context
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 65534
+      fsGroup: 65534
+
+    # Scrape configuration
+    scrapeInterval: 30s
+    evaluationInterval: 30s
+    scrapeTimeout: 10s
+
+    # Enable service discovery for dynamic targets
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+
+    # Additional scrape configs
+    additionalScrapeConfigs: []
+
+    # Remote write configuration
+    remoteWrite: []
+
+    # Alerting configuration
+    alerting:
+      alertmanagers:
+        - namespace: prometheus-stack
+          name: kube-prometheus-stack-alertmanager
+          port: 9093
+
+    # Caching
+    caching:
+      enabled: true
+      cacheSize: 500MB
+      cacheTTL: 10m
+
+# Alertmanager Configuration
+alertmanager:
+  enabled: true
+  alertmanagerSpec:
+    strategy:
+      type: Recreate
+
+    # Storage for alertmanager
+    storage:
+      volumeClaimTemplate:
+        metadata:
+          annotations:
+            longhorn.io/recurring-job-source: enabled
+            longhorn.io/recurring-job-group: important
+            volume.beta.kubernetes.io/storage-provisioner: driver.longhorn.io
+        spec:
+          storageClassName: longhorn
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 2Gi
+
+    # Resource allocation
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi
+
+    # Security context
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 65534
+      fsGroup: 65534
+
+    # Retention
+    retention: 72h
+
+    # Configuration secret (external)
+    configSecret: "alertmanager-config"
+
+# Grafana Configuration
+grafana:
+  enabled: true
+  deploymentStrategy:
+    type: Recreate
+
+  # Admin credentials - secure random password
+  adminUser: admin
+  # Password will be auto-generated and stored in secret
+
+  # Persistence
+  persistence:
+    enabled: true
+    storageClassName: longhorn
+    size: 5Gi
+    accessModes:
+      - ReadWriteOnce
+    annotations:
+      longhorn.io/recurring-job-source: enabled
+      longhorn.io/recurring-job-group: important
+      volume.beta.kubernetes.io/storage-provisioner: driver.longhorn.io
+
+  # Resource allocation
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+  # Security context
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 472
+    fsGroup: 472
+
+  # Enable plugins
+  plugins: []
+
+  # Default dashboards
+  defaultDashboardsEnabled: true
+  defaultDashboardsTimezone: America/New_York
+
+  # Grafana configuration
+  grafana.ini:
+    server:
+      root_url: https://grafana.serverops.live
+    security:
+      allow_embedding: true
+      cookie_secure: true
+      strict_transport_security: true
+    analytics:
+      reporting_enabled: false
+      check_for_updates: false
+    snapshots:
+      external_enabled: false
+    explore:
+      enabled: true
+
+# Node Exporter Configuration
+nodeExporter:
+  enabled: true
+  hostRootFsMount:
+    enabled: true
+    mountPropagation: HostToContainer
+
+  # Resource allocation
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 180Mi
+
+# kube-state-metrics Configuration
+kubeStateMetrics:
+  enabled: true
+
+  # Resource allocation
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+# Prometheus Operator Configuration
+prometheusOperator:
+  enabled: true
+
+  # Resource allocation
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+  # Security context
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65534
+
+# Additional monitoring components
+kubelet:
+  enabled: true
+  serviceMonitor:
+    interval: 30s
+
+# Talos hides these bind addresses, disable to avoid target down alerts
+kubeApiServer:
+  enabled: true
+  serviceMonitor:
+    interval: 30s
+
+kubeControllerManager:
+  enabled: false
+
+kubeScheduler:
+  enabled: false
+
+kubeEtcd:
+  enabled: false
+
+kubeProxy:
+  enabled: false
+
+coreDns:
+  enabled: true
+  serviceMonitor:
+    interval: 30s
+
+kubeDns:
+  enabled: false

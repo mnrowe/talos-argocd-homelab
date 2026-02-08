@@ -1,0 +1,201 @@
+---
+# Exportarr for Radarr
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exportarr-radarr
+  namespace: prometheus-stack
+  labels:
+    app: exportarr
+    app.kubernetes.io/name: exportarr-radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exportarr
+      app.kubernetes.io/name: exportarr-radarr
+  template:
+    metadata:
+      labels:
+        app: exportarr
+        app.kubernetes.io/name: exportarr-radarr
+    spec:
+      containers:
+      - name: exportarr
+        image: ghcr.io/onedr0p/exportarr:v2.0.1
+        ports:
+        - containerPort: 9707
+          name: metrics
+        env:
+        - name: PORT
+          value: "9707"
+        - name: URL
+          value: "http://radarr.radarr.svc.cluster.local:7878"
+        - name: APIKEY
+          valueFrom:
+            secretKeyRef:
+              name: exportarr-api-keys
+              key: radarr-api-key
+        - name: ENABLE_ADDITIONAL_METRICS
+          value: "true"
+        - name: ENABLE_UNKNOWN_QUEUE_ITEMS
+          value: "true"
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+---
+# Service for Radarr Exportarr
+apiVersion: v1
+kind: Service
+metadata:
+  name: exportarr-radarr
+  namespace: prometheus-stack
+  labels:
+    app: exportarr
+    app.kubernetes.io/name: exportarr-radarr
+spec:
+  selector:
+    app: exportarr
+    app.kubernetes.io/name: exportarr-radarr
+  ports:
+  - name: metrics
+    port: 9707
+    targetPort: metrics
+---
+# Exportarr for Sonarr
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exportarr-sonarr
+  namespace: prometheus-stack
+  labels:
+    app: exportarr
+    app.kubernetes.io/name: exportarr-sonarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exportarr
+      app.kubernetes.io/name: exportarr-sonarr
+  template:
+    metadata:
+      labels:
+        app: exportarr
+        app.kubernetes.io/name: exportarr-sonarr
+    spec:
+      containers:
+      - name: exportarr
+        image: ghcr.io/onedr0p/exportarr:v2.0.1
+        ports:
+        - containerPort: 9707
+          name: metrics
+        env:
+        - name: PORT
+          value: "9707"
+        - name: URL
+          value: "http://sonarr.sonarr.svc.cluster.local:8989"
+        - name: APIKEY
+          valueFrom:
+            secretKeyRef:
+              name: exportarr-api-keys
+              key: sonarr-api-key
+        - name: ENABLE_ADDITIONAL_METRICS
+          value: "true"
+        - name: ENABLE_UNKNOWN_QUEUE_ITEMS
+          value: "true"
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+---
+# Service for Sonarr Exportarr
+apiVersion: v1
+kind: Service
+metadata:
+  name: exportarr-sonarr
+  namespace: prometheus-stack
+  labels:
+    app: exportarr
+    app.kubernetes.io/name: exportarr-sonarr
+spec:
+  selector:
+    app: exportarr
+    app.kubernetes.io/name: exportarr-sonarr
+  ports:
+  - name: metrics
+    port: 9707
+    targetPort: metrics
+---
+# Exportarr for Jellyseerr
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exportarr-jellyseerr
+  namespace: prometheus-stack
+  labels:
+    app: exportarr
+    app.kubernetes.io/name: exportarr-jellyseerr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exportarr
+      app.kubernetes.io/name: exportarr-jellyseerr
+  template:
+    metadata:
+      labels:
+        app: exportarr
+        app.kubernetes.io/name: exportarr-jellyseerr
+    spec:
+      containers:
+      - name: exportarr
+        image: ghcr.io/onedr0p/exportarr:v2.0.1
+        ports:
+        - containerPort: 9707
+          name: metrics
+        env:
+        - name: PORT
+          value: "9707"
+        - name: URL
+          value: "http://jellyseerr.jellyseerr.svc.cluster.local:5055"
+        - name: APIKEY
+          valueFrom:
+            secretKeyRef:
+              name: exportarr-api-keys
+              key: jellyseerr-api-key
+        - name: ENABLE_ADDITIONAL_METRICS
+          value: "true"
+        - name: ENABLE_UNKNOWN_QUEUE_ITEMS
+          value: "true"
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+---
+# Service for Jellyseerr Exportarr
+apiVersion: v1
+kind: Service
+metadata:
+  name: exportarr-jellyseerr
+  namespace: prometheus-stack
+  labels:
+    app: exportarr
+    app.kubernetes.io/name: exportarr-jellyseerr
+spec:
+  selector:
+    app: exportarr
+    app.kubernetes.io/name: exportarr-jellyseerr
+  ports:
+  - name: metrics
+    port: 9707
+    targetPort: metrics

@@ -1,0 +1,190 @@
+# Secret for qBittorrent credentials
+apiVersion: v1
+kind: Secret
+metadata:
+    name: qbittorrent-exporter-credentials
+    namespace: prometheus-stack
+type: Opaque
+stringData:
+    #ENC[AES256_GCM,data:2MKB/sU1NslrH0lmQ7hG9GLRXPHem8uziNFookANabNw2zt6EEpjv2aMS+RywDuBj8wagVu9/uV8gyR97fpGG5mr,iv:NCdtZhfTNUFJYsNUUwfrN7/U4h0KBg8Fh9wfL2+GGSs=,tag:PLrvSUBAjvRLfYkID7MgQA==,type:comment]
+    #ENC[AES256_GCM,data:u8haHaIU9P7XD8PJC6j/K9ryhgNXTctGyfPpYBhiPUG2tCfn,iv:kNZOh04Z8+6HfujyNnJ57nHO+s8Y+2aA5N9Rdd8J0HI=,tag:Bu55U3hsMffnNaGAYGl/Yw==,type:comment]
+    #ENC[AES256_GCM,data:lof5eVLUjLlw/q4//oD5OBBW0VSWwaaLiUNaYYMogGsBjjDI9hu5JiZvfMk92ZdWXI0qZ7g=,iv:FtaF4XDtFrmci6XLdwBbbwBT/iANn54O1WsOqfs7ctM=,tag:ZDP7OvaI0GzCg2992xYR4w==,type:comment]
+    #ENC[AES256_GCM,data:wn5i35ZW3ZpTH3OfV5OdXZe0/fz63L95s9NamzajGQ==,iv:nnzLnhLKBaKkgNuM2jRkB48Jc5Cfmk0WL2YuWBoHnHQ=,tag:SYNQpAwVcws1Kx7KxyBfnA==,type:comment]
+    #ENC[AES256_GCM,data:O9ptEAWq2zQObsy488Fund95KbUWnBkixAksgntL3jfhYRc3lza+FEvYJABIDlUt3pJfZkXL,iv:c2I+WuZZZSFS4ImNJ6J2FvhAEEeiGYOYl85y9Ry1saI=,tag:O3Tbjgju8TW5HS/tcfUBAQ==,type:comment]
+    #ENC[AES256_GCM,data:dS1BZ1fdUBgO/PapvpjJ5oCapPiIfknU4wfKR3oagGTfTMM3GmKgcONMtkRT/qeccXkppW/hsGa7ca5o+tbYCY0gIbeUY2+JqRL5zA==,iv:EYJIzxhem+Wuhh572vriDmqmX6N2mYxmBkPKYcVIJyI=,tag:qixwsBeQ563R9KnHPjhhJA==,type:comment]
+    username: ENC[AES256_GCM,data:MII3nxM=,iv:fR93/+E/zrrAZ6cIricAutHcV8rUewy52lEbViKo+5I=,tag:P6czLtJdOgPc6cj8EctSCQ==,type:str]
+    password: ENC[AES256_GCM,data:pEIW2drS4Ykj,iv:vYORWxOgk1Rth2sASSkL15Xte+WvPcJK5P4fCwFbZ/4=,tag:B5KGtgxSGjRTYTWP3dysrw==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age132v2x3u5expx92pllzw2wy5es9c4emc4qs8cx4huh7eddd7ac4dqkscjph
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA5bDZ3Q1dYQXhucDRlekE3
+            S1VtVzZ2d09FN2NlcmIydm9SUk8zUXlNQUJBCnVGV2g4YTN5d0Y1aW9yMzI4VTd2
+            QjNwTEs3M1U4bXZFakdYYktvVkM1VXMKLS0tIFJUc1hiTmtQQmQ4bnFzK3ZkRUNp
+            MFNyQ2d0ajVnTkhNL1lrZ05NaFgyN0kKVW4Wz+8i+eRrulfbl2jZY3kWbkOHawT7
+            bqWi6KY17T4yHsx9gbXuYuXW2/BojB3jXas7gqIZ1br7B2uQo4laAA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-02-08T22:56:50Z"
+    mac: ENC[AES256_GCM,data:TNwl7fjc3sR3akVXhc092UTHplhY4Gx4uNfo0wztfb8iC0Ys1nW8JYvDntlteJPafLmwMvJGeBNBmsfyPtNDfsAfN3WDI+a0eOufEJfFoERdkSuC33lLrwNMmg0sMg7523PS8i+I+UKFyDmW7JkyF9Uvqy0sI0oZokXa2slRYzY=,iv:pvlf71RHdZyyQEqADLs1hGy72Ts+7BvUsspr9O0mpmY=,tag:Ch/x0i4hRu8e9kNGglFBIw==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.3
+---
+# qBittorrent Exporter Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: qbittorrent-exporter
+    namespace: prometheus-stack
+    labels:
+        app: qbittorrent-exporter
+        app.kubernetes.io/name: qbittorrent-exporter
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: qbittorrent-exporter
+            app.kubernetes.io/name: qbittorrent-exporter
+    template:
+        metadata:
+            labels:
+                app: qbittorrent-exporter
+                app.kubernetes.io/name: qbittorrent-exporter
+        spec:
+            containers:
+                - name: qbittorrent-exporter
+                  image: ghcr.io/esanchezm/prometheus-qbittorrent-exporter:v1.5.1
+                  ports:
+                    - containerPort: 8000
+                      name: metrics
+                  env:
+                    - name: QBITTORRENT_HOST
+                      value: qbt.qbt.svc.cluster.local
+                    - name: QBITTORRENT_PORT
+                      value: "80"
+                    - name: QBITTORRENT_USER
+                      valueFrom:
+                        secretKeyRef:
+                            name: qbittorrent-exporter-credentials
+                            key: username
+                    - name: QBITTORRENT_PASS
+                      valueFrom:
+                        secretKeyRef:
+                            name: qbittorrent-exporter-credentials
+                            key: password
+                    - name: EXPORTER_PORT
+                      value: "8000"
+                    - name: EXPORTER_LOG_LEVEL
+                      value: INFO
+                  resources:
+                    requests:
+                        cpu: 25m
+                        memory: 64Mi
+                    limits:
+                        cpu: 100m
+                        memory: 128Mi
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age132v2x3u5expx92pllzw2wy5es9c4emc4qs8cx4huh7eddd7ac4dqkscjph
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA5bDZ3Q1dYQXhucDRlekE3
+            S1VtVzZ2d09FN2NlcmIydm9SUk8zUXlNQUJBCnVGV2g4YTN5d0Y1aW9yMzI4VTd2
+            QjNwTEs3M1U4bXZFakdYYktvVkM1VXMKLS0tIFJUc1hiTmtQQmQ4bnFzK3ZkRUNp
+            MFNyQ2d0ajVnTkhNL1lrZ05NaFgyN0kKVW4Wz+8i+eRrulfbl2jZY3kWbkOHawT7
+            bqWi6KY17T4yHsx9gbXuYuXW2/BojB3jXas7gqIZ1br7B2uQo4laAA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-02-08T22:56:50Z"
+    mac: ENC[AES256_GCM,data:TNwl7fjc3sR3akVXhc092UTHplhY4Gx4uNfo0wztfb8iC0Ys1nW8JYvDntlteJPafLmwMvJGeBNBmsfyPtNDfsAfN3WDI+a0eOufEJfFoERdkSuC33lLrwNMmg0sMg7523PS8i+I+UKFyDmW7JkyF9Uvqy0sI0oZokXa2slRYzY=,iv:pvlf71RHdZyyQEqADLs1hGy72Ts+7BvUsspr9O0mpmY=,tag:Ch/x0i4hRu8e9kNGglFBIw==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.3
+---
+# Service for qBittorrent Exporter
+apiVersion: v1
+kind: Service
+metadata:
+    name: qbittorrent-exporter
+    namespace: prometheus-stack
+    labels:
+        app: qbittorrent-exporter
+        app.kubernetes.io/name: qbittorrent-exporter
+spec:
+    selector:
+        app: qbittorrent-exporter
+        app.kubernetes.io/name: qbittorrent-exporter
+    ports:
+        - name: metrics
+          port: 8000
+          targetPort: metrics
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age132v2x3u5expx92pllzw2wy5es9c4emc4qs8cx4huh7eddd7ac4dqkscjph
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA5bDZ3Q1dYQXhucDRlekE3
+            S1VtVzZ2d09FN2NlcmIydm9SUk8zUXlNQUJBCnVGV2g4YTN5d0Y1aW9yMzI4VTd2
+            QjNwTEs3M1U4bXZFakdYYktvVkM1VXMKLS0tIFJUc1hiTmtQQmQ4bnFzK3ZkRUNp
+            MFNyQ2d0ajVnTkhNL1lrZ05NaFgyN0kKVW4Wz+8i+eRrulfbl2jZY3kWbkOHawT7
+            bqWi6KY17T4yHsx9gbXuYuXW2/BojB3jXas7gqIZ1br7B2uQo4laAA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-02-08T22:56:50Z"
+    mac: ENC[AES256_GCM,data:TNwl7fjc3sR3akVXhc092UTHplhY4Gx4uNfo0wztfb8iC0Ys1nW8JYvDntlteJPafLmwMvJGeBNBmsfyPtNDfsAfN3WDI+a0eOufEJfFoERdkSuC33lLrwNMmg0sMg7523PS8i+I+UKFyDmW7JkyF9Uvqy0sI0oZokXa2slRYzY=,iv:pvlf71RHdZyyQEqADLs1hGy72Ts+7BvUsspr9O0mpmY=,tag:Ch/x0i4hRu8e9kNGglFBIw==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.3
+---
+# ServiceMonitor for qBittorrent Exporter
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+    name: qbittorrent-exporter
+    namespace: prometheus-stack
+    labels:
+        app: qbittorrent-exporter
+        app.kubernetes.io/name: qbittorrent-exporter
+spec:
+    selector:
+        matchLabels:
+            app: qbittorrent-exporter
+            app.kubernetes.io/name: qbittorrent-exporter
+    endpoints:
+        - port: metrics
+          interval: 60s
+          path: /metrics
+    namespaceSelector:
+        matchNames:
+            - prometheus-stack
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age132v2x3u5expx92pllzw2wy5es9c4emc4qs8cx4huh7eddd7ac4dqkscjph
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA5bDZ3Q1dYQXhucDRlekE3
+            S1VtVzZ2d09FN2NlcmIydm9SUk8zUXlNQUJBCnVGV2g4YTN5d0Y1aW9yMzI4VTd2
+            QjNwTEs3M1U4bXZFakdYYktvVkM1VXMKLS0tIFJUc1hiTmtQQmQ4bnFzK3ZkRUNp
+            MFNyQ2d0ajVnTkhNL1lrZ05NaFgyN0kKVW4Wz+8i+eRrulfbl2jZY3kWbkOHawT7
+            bqWi6KY17T4yHsx9gbXuYuXW2/BojB3jXas7gqIZ1br7B2uQo4laAA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-02-08T22:56:50Z"
+    mac: ENC[AES256_GCM,data:TNwl7fjc3sR3akVXhc092UTHplhY4Gx4uNfo0wztfb8iC0Ys1nW8JYvDntlteJPafLmwMvJGeBNBmsfyPtNDfsAfN3WDI+a0eOufEJfFoERdkSuC33lLrwNMmg0sMg7523PS8i+I+UKFyDmW7JkyF9Uvqy0sI0oZokXa2slRYzY=,iv:pvlf71RHdZyyQEqADLs1hGy72Ts+7BvUsspr9O0mpmY=,tag:Ch/x0i4hRu8e9kNGglFBIw==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.3
