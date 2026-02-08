@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+  namespace: sonarr
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: sonarr
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      containers:
+      - name: sonarr
+        image: lscr.io/linuxserver/sonarr:latest
+        ports:
+        - containerPort: 8989
+          name: http
+        env:
+        - name: TZ
+          value: America/New_York
+        - name: PUID
+          value: "1001"
+        - name: PGID
+          value: "1001"
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: media
+          mountPath: /tv
+          subPath: data/media/tv
+        - name: media
+          mountPath: /data
+          subPath: data
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: 100m
+          limits:
+            memory: 1Gi
+            cpu: 2000m
+        securityContext:
+          privileged: true
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: sonarr-config
+      - name: media
+        persistentVolumeClaim:
+          claimName: sonarr-media

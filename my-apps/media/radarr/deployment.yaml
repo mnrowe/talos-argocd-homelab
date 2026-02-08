@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+  namespace: radarr
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: radarr
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      containers:
+      - name: radarr
+        image: lscr.io/linuxserver/radarr:latest
+        ports:
+        - containerPort: 7878
+          name: http
+        env:
+        - name: TZ
+          value: America/New_York
+        - name: PUID
+          value: "1001"
+        - name: PGID
+          value: "1001"
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: media
+          mountPath: /movies
+          subPath: data/media/movies
+        - name: media
+          mountPath: /data
+          subPath: data
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: 100m
+          limits:
+            memory: 1Gi
+            cpu: 2000m
+        securityContext:
+          privileged: true
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: radarr-config
+      - name: media
+        persistentVolumeClaim:
+          claimName: radarr-media
