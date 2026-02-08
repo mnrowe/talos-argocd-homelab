@@ -15,11 +15,6 @@ spec:
       labels:
         app: qbittorrent
     spec:
-      securityContext:
-        runAsUser: 1001
-        runAsGroup: 1001
-        fsGroup: 1001
-        fsGroupChangePolicy: OnRootMismatch
       containers:
       - name: qbittorrent
         image: lscr.io/linuxserver/qbittorrent:5.0.3
@@ -55,10 +50,7 @@ spec:
             memory: 2Gi
             cpu: 2000m
         securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
+          privileged: true
       volumes:
       - name: config
         persistentVolumeClaim:
