@@ -4,6 +4,7 @@ metadata:
   name: jellyfin
   namespace: jellyfin
 spec:
+  type: LoadBalancer
   selector:
     app: jellyfin
   ports:
