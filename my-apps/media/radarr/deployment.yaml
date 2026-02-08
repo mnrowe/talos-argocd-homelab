@@ -15,6 +15,10 @@ spec:
       labels:
         app: radarr
     spec:
+      hostAliases:
+      - ip: "185.107.44.50"
+        hostnames:
+        - "passthepopcorn.me"
       containers:
       - name: radarr
         image: lscr.io/linuxserver/radarr:latest
