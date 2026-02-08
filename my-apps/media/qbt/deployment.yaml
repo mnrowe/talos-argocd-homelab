@@ -46,6 +46,7 @@ spec:
           mountPath: /config
         - name: torrents
           mountPath: /data/torrents
+          subPath: torrents
         resources:
           requests:
             memory: 512Mi
