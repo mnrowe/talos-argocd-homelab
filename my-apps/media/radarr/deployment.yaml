@@ -15,10 +15,6 @@ spec:
       labels:
         app: radarr
     spec:
-      dnsConfig:
-        options:
-        - name: ndots
-          value: "2"
       containers:
       - name: radarr
         image: lscr.io/linuxserver/radarr:latest
@@ -32,8 +28,6 @@ spec:
           value: "1000"
         - name: PGID
           value: "1000"
-        - name: DOTNET_SYSTEM_NET_DISABLEIPV6
-          value: "true"
         volumeMounts:
         - name: config
           mountPath: /config
