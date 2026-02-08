@@ -94,7 +94,8 @@ spec:
             server: 192.168.5.10
             path: /mnt/pool/share/volsync-kopia
         - name: config
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: kopia-config
         - name: cache
           emptyDir: {}
         - name: logs
