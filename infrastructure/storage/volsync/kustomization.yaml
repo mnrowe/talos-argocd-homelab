@@ -4,6 +4,7 @@ namespace: volsync-system
 resources:
   - ns.yaml
   - volumesnapshotclass.yaml
+  - volsync-kopia-secret.yaml
 helmCharts:
   - name: volsync
     repo: https://perfectra1n.github.io/volsync/charts

@@ -1,0 +1,86 @@
+admissionController:
+  replicas: 1
+  container:
+    extraArgs:
+      #  Override the default service account names - Helm uses Release.Namespace
+      # which resolves to 'argocd' when deployed via ArgoCD, but resources are in 'kyverno'
+      backgroundServiceAccountName: "system:serviceaccount:kyverno:kyverno-background-controller"
+      reportsServiceAccountName: "system:serviceaccount:kyverno:kyverno-reports-controller"
+  resources:
+    limits:
+      memory: 384Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  rbac:
+    clusterRole:
+      extraResources:
+      - apiGroups:
+        - volsync.backube
+        resources:
+        - replicationsources
+        - replicationdestinations
+        verbs:
+        - create
+        - delete
+        - get
+        - list
+        - patch
+        - update
+        - watch
+
+backgroundController:
+  replicas: 1
+  resources:
+    limits:
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+  rbac:
+    clusterRole:
+      extraResources:
+      - apiGroups:
+        - volsync.backube
+        resources:
+        - replicationsources
+        - replicationdestinations
+        verbs:
+        - create
+        - delete
+        - get
+        - list
+        - patch
+        - update
+        - watch
+
+cleanupController:
+  replicas: 1
+  resources:
+    limits:
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+
+reportsController:
+  replicas: 1
+  resources:
+    limits:
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 64Mi
+
+# Fix kubectl image for cleanup hooks (bitnami/kubectl:1.30.2 doesn't exist)
+policyReportsCleanup:
+  image:
+    registry: registry.k8s.io
+    repository: kubectl
+    tag: 'v1.35.0'
+
+webhooksCleanup:
+  image:
+    registry: registry.k8s.io
+    repository: kubectl
+    tag: 'v1.35.0'

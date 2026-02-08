@@ -18,9 +18,9 @@ spec:
     spec:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: kopia
@@ -92,7 +92,7 @@ spec:
         - name: repository
           nfs:
             server: 192.168.5.10
-            path: /mnt/pool/share/kopia-repository
+            path: /mnt/pool/share/volsync-kopia
         - name: config
           emptyDir: {}
         - name: cache
