@@ -5,6 +5,8 @@ kind: ServiceMonitor
 metadata:
   name: argocd-server-metrics
   namespace: prometheus-stack
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   labels:
     app.kubernetes.io/name: argocd-server
 spec:

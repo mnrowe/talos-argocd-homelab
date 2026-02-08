@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: prometheus-stack
 
 resources:
-  - namespace.yaml
+  - ns.yaml
   - alertmanager-config.yaml
   - custom-servicemonitors.yaml
   - custom-alerts.yaml
