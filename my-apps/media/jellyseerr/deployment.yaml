@@ -15,6 +15,7 @@ spec:
       labels:
         app: jellyseerr
     spec:
+      dnsPolicy: Default
       containers:
       - name: jellyseerr
         image: fallenbagel/jellyseerr:latest
