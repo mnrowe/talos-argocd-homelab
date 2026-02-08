@@ -15,10 +15,9 @@ spec:
       labels:
         app: radarr
     spec:
-      dnsPolicy: Default
       containers:
       - name: radarr
-        image: lscr.io/linuxserver/radarr:latest
+        image: ghcr.io/onedr0p/radarr:rolling
         ports:
         - containerPort: 7878
           name: http

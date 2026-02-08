@@ -16,8 +16,8 @@ spec:
   - backendRefs:
     - group: ""
       kind: Service
-      name: radarr-main
-      port: 7878
+      name: radarr
+      port: 80
       weight: 1
     matches:
     - path:
