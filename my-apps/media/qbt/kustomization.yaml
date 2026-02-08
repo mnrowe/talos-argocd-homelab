@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: qbt
+resources:
+  - ns.yaml
+  - qbt-config-pvc.yaml
+  - torrents-pvc.yaml
+  - deployment.yaml
+  - service.yaml
+  - http-route.yaml

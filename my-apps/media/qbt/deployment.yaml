@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent
+  namespace: qbt
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: qbittorrent
+  template:
+    metadata:
+      labels:
+        app: qbittorrent
+    spec:
+      securityContext:
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+      - name: qbittorrent
+        image: lscr.io/linuxserver/qbittorrent:5.0.3
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 6881
+          name: bt-tcp
+          protocol: TCP
+        - containerPort: 6881
+          name: bt-udp
+          protocol: UDP
+        env:
+        - name: TZ
+          value: America/New_York
+        - name: PUID
+          value: "1001"
+        - name: PGID
+          value: "1001"
+        - name: WEBUI_PORT
+          value: "8080"
+        volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: torrents
+          mountPath: /data/torrents
+        resources:
+          requests:
+            memory: 512Mi
+            cpu: 100m
+          limits:
+            memory: 2Gi
+            cpu: 2000m
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: qbt-config
+      - name: torrents
+        persistentVolumeClaim:
+          claimName: qbt-torrents
