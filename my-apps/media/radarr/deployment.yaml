@@ -15,6 +15,7 @@ spec:
       labels:
         app: radarr
     spec:
+      dnsPolicy: Default
       containers:
       - name: radarr
         image: ghcr.io/onedr0p/radarr:rolling
