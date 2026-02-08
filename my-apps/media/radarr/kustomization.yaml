@@ -5,6 +5,12 @@ resources:
   - ns.yaml
   - config-pvc.yaml
   - media-pvc.yaml
-  - deployment.yaml
-  - service.yaml
   - http-route.yaml
+
+helmCharts:
+- name: radarr
+  repo: https://charts.truecharts.org
+  version: 10.0.14
+  releaseName: radarr
+  namespace: radarr
+  valuesFile: values.yaml
