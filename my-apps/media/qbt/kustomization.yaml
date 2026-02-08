@@ -4,7 +4,7 @@ namespace: qbt
 resources:
   - ns.yaml
   - qbt-config-pvc.yaml
-  # - torrents-pvc.yaml  # Temporarily removed to recreate PV with new path
+  - torrents-pvc.yaml
   - deployment.yaml
   - service.yaml
   - http-route.yaml
