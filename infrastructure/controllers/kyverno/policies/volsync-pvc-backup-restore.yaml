@@ -152,17 +152,16 @@ spec:
           spec:
             sourcePVC: "{{request.object.metadata.name}}"
             trigger:
-              # Use label value for schedule: hourly = every hour, daily = once per day at 2am
-              schedule: "{{ request.object.metadata.labels.backup == 'hourly' && '0 * * * *' || '0 2 * * *' }}"
+              # Use label value for schedule: hourly = every hour, daily = once per day at 3am
+              schedule: "{{ request.object.metadata.labels.backup == 'hourly' && '0 * * * *' || '0 3 * * *' }}"
             kopia:
               repository: "volsync-{{request.object.metadata.name}}"
               compression: zstd-fastest
               parallelism: 2
               retain:
-                hourly: 24
-                daily: 7
-                weekly: 4
-                monthly: 2
+                daily: 2
+                weekly: 1
+                monthly: 1
               copyMethod: Snapshot
               storageClassName: longhorn
               volumeSnapshotClassName: longhorn-snapclass

@@ -4,7 +4,7 @@ metadata:
   name: jellyfin-config
   namespace: jellyfin
   labels:
-    backup: "hourly"
+    backup: "daily"
 spec:
   accessModes:
     - ReadWriteOnce
