@@ -9,12 +9,30 @@ oauth:
       secretKeyRef:
         name: operator-oauth
         key: client_secret
-
 operatorConfig:
-  defaultTags:
-    - tag:k8s
-    - tag:homelab
-  hostname: k8s-operator
-
+    defaultTags:
+        - tag:k8s
+        - tag:homelab
+    hostname: k8s-operator
 apiServerProxyConfig:
-  mode: "true"
+    mode: "true"
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age132v2x3u5expx92pllzw2wy5es9c4emc4qs8cx4huh7eddd7ac4dqkscjph
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSByaGNiUDdPZTVGNUo1OThk
+            bC9FKzJjSEp5QWtORzdyZEFCTUw1VU1iWENvClFEU0lKaHBYOWVQZ01IelBTSkdr
+            QStHYUlLSXlQT2ZxWkJyWTdXYVdwbTQKLS0tIGxHK2xwYzFxNUJVQ0ZvM3p1T1lX
+            VjNKSnNDOFRlNVZsYlVQQ3ZCTDFrSnMK/NrK/3nt/vv94RA2n2ezD/3qriO7a8Rn
+            j9lG9uWpr26pbI666yyZtlYl00tltn5vncHa5IFmoDo1He6AwxjTFA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-02-10T04:14:06Z"
+    mac: ENC[AES256_GCM,data:i3eYtIFyNGS8u3qjjOQipJlf+Va2kLWB/hjJJqt21tm6l7tM4xzVZuQmEsPzvOAejV5hCa4xKTV41ccJpUp/znJ29aJmtfmP6OwyLniDPk/H5glJ/x5LnqKwu60ji933PWW9XVZPLMQFs/nmuQosjI0dhOYolJkuJCxrjq4H6DE=,iv:VEzhUH463+Dy+T+YSrIahexjTQP4ka4ZmhTqWzqaIEg=,tag:D6PtIVsb/xhJCKbl+tkalg==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.3
