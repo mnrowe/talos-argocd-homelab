@@ -4,7 +4,7 @@ namespace: tailscale
 
 resources:
   - ns.yaml
-  - oauth-secret.yaml
+  # oauth-secret.yaml # Managed separately - apply with: sops -d oauth-secret.yaml | kubectl apply -f -
 
 helmCharts:
 - name: tailscale-operator
