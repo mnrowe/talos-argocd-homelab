@@ -4,3 +4,7 @@ terraform/
 *.tfstate.*
 .terraform.lock.hcl
 docker/
+
+# Helm chart downloads
+infrastructure/*/charts/
+tmp/
