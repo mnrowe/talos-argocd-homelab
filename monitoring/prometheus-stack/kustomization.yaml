@@ -13,6 +13,7 @@ resources:
   - exportarr-deployment.yaml
   - exportarr-secret.yaml
   - exportarr-servicemonitor.yaml
+  - qbittorrent-exporter-secret.yaml
   - qbittorrent-exporter-deployment.yaml
   - media-alerts.yaml
 

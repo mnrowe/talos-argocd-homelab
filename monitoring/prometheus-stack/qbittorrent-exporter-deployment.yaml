@@ -1,39 +1,3 @@
-# Secret for qBittorrent credentials
-apiVersion: v1
-kind: Secret
-metadata:
-    name: qbittorrent-exporter-credentials
-    namespace: prometheus-stack
-type: Opaque
-stringData:
-    #ENC[AES256_GCM,data:VHp7rMM/wNF0GBDdRQaCqXLpBq9f6o/Xk1tmC3AwVbsV+Bk6Pc1TqVJMLoDV0uIAA51QG05GIEqeyiTr6bRrIulz,iv:TkcmWB6uzxXJuio4CjkYyASAQTKfAIPybgmfHTY7OGI=,tag:I6YBGdgB29MVglgrbwA1WA==,type:comment]
-    #ENC[AES256_GCM,data:S0EUygPUiM6/6+F9nF9D5J+LhFYE/SrwSYTqZkq6KhIcBW8n,iv:rfzLXEaCN5cgXPz9A/dYXYDmX1nzfUmmlIxA9IwR/Pg=,tag:4u0xXEHlRqT1kxj48EusuQ==,type:comment]
-    #ENC[AES256_GCM,data:3tda6hGs3usVejnU4WYzvzYd7XRz1+Az+vcYcU5Y/hTKNORIfvd46ccHsM8wbjw/a9ls3YA=,iv:bvswOpGTRdDikvkdKg4cut+PZD6/mZ+qN37SbDMP75E=,tag:kLKYhU+FaPHkz6LPesrekQ==,type:comment]
-    #ENC[AES256_GCM,data:2vl93s1l5L6NNBzlKkqsJkf0UrZEm6TrsQ9+Fvxing==,iv:zoFUYXNFPF3OphCgXcR1QCYBP8jjsNfKLVGS4D9U8yg=,tag:UX+J8Gx1sB0KbvYxp1JsmA==,type:comment]
-    #ENC[AES256_GCM,data:t6a/kiWxaDdY4aAW2z4UkFsTgp1y6uQHPOqRBWl1hZBNC5iYyVjYpIzknvXrFyY3CDC9JpQV,iv:XtbZbLI8lLWWIVdDIoP97zDOdaGdXSghTibKbM3PUNU=,tag:mFKNI9DVTMbe42FkcUoBjg==,type:comment]
-    #ENC[AES256_GCM,data:xmohZ4ZYF41fpd7wnCDA28D8gWxJRlM2UQZHkZhIAwCAdVg7/AdHSXZ2y/F0R7RKtfIWmhrIFG/jPdUyk0mgvNY6sd2fU5BGA+WvUw==,iv:CwhA89XnPAbOWIjfXleaM0wfsLnPQsuMF8PIXe2XZBc=,tag:7yOGME2cjczLGOO1bRHMnA==,type:comment]
-    username: ENC[AES256_GCM,data:bHJyyms=,iv:ppMfIZ6xZKte6RZKS6nyXjpahS2mP03j0bPHZQMc79w=,tag:aVork5lLPLJvbuZCn8YOeQ==,type:str]
-    password: ENC[AES256_GCM,data:Wlnn4tKTyMUd,iv:lr/VxlabCAhGqIQz3ypriLXikbAGJO4Xaj7PgS1YvpM=,tag:PW7nc86t3+J2nfpnRizdXQ==,type:str]
-sops:
-    kms: []
-    gcp_kms: []
-    azure_kv: []
-    hc_vault: []
-    age:
-        - recipient: age132v2x3u5expx92pllzw2wy5es9c4emc4qs8cx4huh7eddd7ac4dqkscjph
-          enc: |
-            -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBDQ0hwb1NWZXAzZGdldUlX
-            Qm80TVpzY0RvYi9DV0JxOHlkNEZtWG5KQUdNCmRnSkdXMHc5b1h0RnhBT3UzVDNU
-            bGVWem9hTEN4WnB3RzFvTzJOYWg0YW8KLS0tIEJ5bTdxMFhLR2VoUmkzRlp5d3Bp
-            VXdxelZ4WnZxWmpOTkYxVU44NkJuTzQKRP/IkTAyQqQCjX4zE+RYmrUOmYwBhBd4
-            j7mCJeUnOEWo9HSVFGtAx5zMrYZ13e9j8oxCpH/ps31OZfM/d1pdbA==
-            -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-02-10T01:54:12Z"
-    mac: ENC[AES256_GCM,data:nwhT2zJNYpSJyIeLMO4gZocVVsQME5WJGYhNi7DcX98bLUd25j1ogDVO9X6eRNAv1WgtavOKy+7Dlzo7sN5BpB85SXmr9b9YVuQXLS5X52kafnCNGy4HqqS7PV5V6KC/fWkY2N8v/foGfknHvNmVmPJlqEDz4AscuwtJ3B/m1Es=,iv:hc+f4V7/qJ2ONAya0YuM5/In4AccCqtc9DB0VQG9K84=,tag:1ko3MOD086ZJHtppGtilvw==,type:str]
-    pgp: []
-    encrypted_regex: ^(data|stringData)$
-    version: 3.7.3
 ---
 # qBittorrent Exporter Deployment
 apiVersion: apps/v1
@@ -88,26 +52,6 @@ spec:
                     limits:
                         cpu: 100m
                         memory: 128Mi
-sops:
-    kms: []
-    gcp_kms: []
-    azure_kv: []
-    hc_vault: []
-    age:
-        - recipient: age132v2x3u5expx92pllzw2wy5es9c4emc4qs8cx4huh7eddd7ac4dqkscjph
-          enc: |
-            -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBDQ0hwb1NWZXAzZGdldUlX
-            Qm80TVpzY0RvYi9DV0JxOHlkNEZtWG5KQUdNCmRnSkdXMHc5b1h0RnhBT3UzVDNU
-            bGVWem9hTEN4WnB3RzFvTzJOYWg0YW8KLS0tIEJ5bTdxMFhLR2VoUmkzRlp5d3Bp
-            VXdxelZ4WnZxWmpOTkYxVU44NkJuTzQKRP/IkTAyQqQCjX4zE+RYmrUOmYwBhBd4
-            j7mCJeUnOEWo9HSVFGtAx5zMrYZ13e9j8oxCpH/ps31OZfM/d1pdbA==
-            -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-02-10T01:54:12Z"
-    mac: ENC[AES256_GCM,data:nwhT2zJNYpSJyIeLMO4gZocVVsQME5WJGYhNi7DcX98bLUd25j1ogDVO9X6eRNAv1WgtavOKy+7Dlzo7sN5BpB85SXmr9b9YVuQXLS5X52kafnCNGy4HqqS7PV5V6KC/fWkY2N8v/foGfknHvNmVmPJlqEDz4AscuwtJ3B/m1Es=,iv:hc+f4V7/qJ2ONAya0YuM5/In4AccCqtc9DB0VQG9K84=,tag:1ko3MOD086ZJHtppGtilvw==,type:str]
-    pgp: []
-    encrypted_regex: ^(data|stringData)$
-    version: 3.7.3
 ---
 # Service for qBittorrent Exporter
 apiVersion: v1
@@ -126,26 +70,6 @@ spec:
         - name: metrics
           port: 8000
           targetPort: metrics
-sops:
-    kms: []
-    gcp_kms: []
-    azure_kv: []
-    hc_vault: []
-    age:
-        - recipient: age132v2x3u5expx92pllzw2wy5es9c4emc4qs8cx4huh7eddd7ac4dqkscjph
-          enc: |
-            -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBDQ0hwb1NWZXAzZGdldUlX
-            Qm80TVpzY0RvYi9DV0JxOHlkNEZtWG5KQUdNCmRnSkdXMHc5b1h0RnhBT3UzVDNU
-            bGVWem9hTEN4WnB3RzFvTzJOYWg0YW8KLS0tIEJ5bTdxMFhLR2VoUmkzRlp5d3Bp
-            VXdxelZ4WnZxWmpOTkYxVU44NkJuTzQKRP/IkTAyQqQCjX4zE+RYmrUOmYwBhBd4
-            j7mCJeUnOEWo9HSVFGtAx5zMrYZ13e9j8oxCpH/ps31OZfM/d1pdbA==
-            -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-02-10T01:54:12Z"
-    mac: ENC[AES256_GCM,data:nwhT2zJNYpSJyIeLMO4gZocVVsQME5WJGYhNi7DcX98bLUd25j1ogDVO9X6eRNAv1WgtavOKy+7Dlzo7sN5BpB85SXmr9b9YVuQXLS5X52kafnCNGy4HqqS7PV5V6KC/fWkY2N8v/foGfknHvNmVmPJlqEDz4AscuwtJ3B/m1Es=,iv:hc+f4V7/qJ2ONAya0YuM5/In4AccCqtc9DB0VQG9K84=,tag:1ko3MOD086ZJHtppGtilvw==,type:str]
-    pgp: []
-    encrypted_regex: ^(data|stringData)$
-    version: 3.7.3
 ---
 # ServiceMonitor for qBittorrent Exporter
 apiVersion: monitoring.coreos.com/v1
@@ -168,23 +92,3 @@ spec:
     namespaceSelector:
         matchNames:
             - prometheus-stack
-sops:
-    kms: []
-    gcp_kms: []
-    azure_kv: []
-    hc_vault: []
-    age:
-        - recipient: age132v2x3u5expx92pllzw2wy5es9c4emc4qs8cx4huh7eddd7ac4dqkscjph
-          enc: |
-            -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBDQ0hwb1NWZXAzZGdldUlX
-            Qm80TVpzY0RvYi9DV0JxOHlkNEZtWG5KQUdNCmRnSkdXMHc5b1h0RnhBT3UzVDNU
-            bGVWem9hTEN4WnB3RzFvTzJOYWg0YW8KLS0tIEJ5bTdxMFhLR2VoUmkzRlp5d3Bp
-            VXdxelZ4WnZxWmpOTkYxVU44NkJuTzQKRP/IkTAyQqQCjX4zE+RYmrUOmYwBhBd4
-            j7mCJeUnOEWo9HSVFGtAx5zMrYZ13e9j8oxCpH/ps31OZfM/d1pdbA==
-            -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-02-10T01:54:12Z"
-    mac: ENC[AES256_GCM,data:nwhT2zJNYpSJyIeLMO4gZocVVsQME5WJGYhNi7DcX98bLUd25j1ogDVO9X6eRNAv1WgtavOKy+7Dlzo7sN5BpB85SXmr9b9YVuQXLS5X52kafnCNGy4HqqS7PV5V6KC/fWkY2N8v/foGfknHvNmVmPJlqEDz4AscuwtJ3B/m1Es=,iv:hc+f4V7/qJ2ONAya0YuM5/In4AccCqtc9DB0VQG9K84=,tag:1ko3MOD086ZJHtppGtilvw==,type:str]
-    pgp: []
-    encrypted_regex: ^(data|stringData)$
-    version: 3.7.3
