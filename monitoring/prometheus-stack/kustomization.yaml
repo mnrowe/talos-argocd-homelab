@@ -16,6 +16,7 @@ resources:
   # qbittorrent-exporter-secret.yaml # Managed separately - apply with: sops -d qbittorrent-exporter-secret.yaml | kubectl apply -f -
   - qbittorrent-exporter-deployment.yaml
   - media-alerts.yaml
+  - media-dashboards-configmap.yaml
 
 helmCharts:
 - name: kube-prometheus-stack

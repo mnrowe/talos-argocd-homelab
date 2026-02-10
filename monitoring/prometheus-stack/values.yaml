@@ -183,6 +183,15 @@ grafana:
     explore:
       enabled: true
 
+  # Enable sidecar for dashboard auto-discovery
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      folder: /tmp/dashboards
+      defaultFolderName: "General"
+      searchNamespace: prometheus-stack
+
 # Node Exporter Configuration
 nodeExporter:
   enabled: true
