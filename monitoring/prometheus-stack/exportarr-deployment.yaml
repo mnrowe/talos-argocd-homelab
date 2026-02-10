@@ -20,7 +20,6 @@ spec:
         app: exportarr
         app.kubernetes.io/name: exportarr-radarr
     spec:
-      dnsPolicy: Default
       containers:
       - name: exportarr
         image: ghcr.io/onedr0p/exportarr:v2.0.1
@@ -31,7 +30,7 @@ spec:
         - name: PORT
           value: "9707"
         - name: URL
-          value: "http://radarr.radarr.svc.cluster.local:7878"
+          value: "http://radarr.radarr.svc.cluster.local"
         - name: APIKEY
           valueFrom:
             secretKeyRef:
@@ -88,7 +87,6 @@ spec:
         app: exportarr
         app.kubernetes.io/name: exportarr-sonarr
     spec:
-      dnsPolicy: Default
       containers:
       - name: exportarr
         image: ghcr.io/onedr0p/exportarr:v2.0.1
@@ -99,7 +97,7 @@ spec:
         - name: PORT
           value: "9707"
         - name: URL
-          value: "http://sonarr.sonarr.svc.cluster.local:8989"
+          value: "http://sonarr.sonarr.svc.cluster.local"
         - name: APIKEY
           valueFrom:
             secretKeyRef:
@@ -156,7 +154,6 @@ spec:
         app: exportarr
         app.kubernetes.io/name: exportarr-jellyseerr
     spec:
-      dnsPolicy: Default
       containers:
       - name: exportarr
         image: ghcr.io/onedr0p/exportarr:v2.0.1

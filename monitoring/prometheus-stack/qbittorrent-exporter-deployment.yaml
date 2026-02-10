@@ -56,7 +56,6 @@ spec:
                 app: qbittorrent-exporter
                 app.kubernetes.io/name: qbittorrent-exporter
         spec:
-            dnsPolicy: Default
             containers:
                 - name: qbittorrent-exporter
                   image: ghcr.io/esanchezm/prometheus-qbittorrent-exporter:v1.5.1
@@ -65,7 +64,7 @@ spec:
                       name: metrics
                   env:
                     - name: QBITTORRENT_HOST
-                      value: qbittorrent.qbt.svc.cluster.local
+                      value: qbittorrent.qbt
                     - name: QBITTORRENT_PORT
                       value: "80"
                     - name: QBITTORRENT_USER
