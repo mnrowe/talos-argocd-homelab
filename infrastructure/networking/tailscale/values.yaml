@@ -11,7 +11,7 @@ oauth:
         key: client_secret
 operatorConfig:
     defaultTags:
-        - tag:k8s
+        - tag:k8
         - tag:homelab
     hostname: k8s-operator
 apiServerProxyConfig:
