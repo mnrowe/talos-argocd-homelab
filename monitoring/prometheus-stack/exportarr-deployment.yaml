@@ -20,6 +20,7 @@ spec:
         app: exportarr
         app.kubernetes.io/name: exportarr-radarr
     spec:
+      dnsPolicy: Default
       containers:
       - name: exportarr
         image: ghcr.io/onedr0p/exportarr:v2.0.1
@@ -87,6 +88,7 @@ spec:
         app: exportarr
         app.kubernetes.io/name: exportarr-sonarr
     spec:
+      dnsPolicy: Default
       containers:
       - name: exportarr
         image: ghcr.io/onedr0p/exportarr:v2.0.1
@@ -154,6 +156,7 @@ spec:
         app: exportarr
         app.kubernetes.io/name: exportarr-jellyseerr
     spec:
+      dnsPolicy: Default
       containers:
       - name: exportarr
         image: ghcr.io/onedr0p/exportarr:v2.0.1
