@@ -23,6 +23,7 @@ spec:
       containers:
       - name: exportarr
         image: ghcr.io/onedr0p/exportarr:v2.0.1
+        command: ["exportarr", "radarr"]
         ports:
         - containerPort: 9707
           name: metrics
@@ -90,6 +91,7 @@ spec:
       containers:
       - name: exportarr
         image: ghcr.io/onedr0p/exportarr:v2.0.1
+        command: ["exportarr", "sonarr"]
         ports:
         - containerPort: 9707
           name: metrics
@@ -157,6 +159,7 @@ spec:
       containers:
       - name: exportarr
         image: ghcr.io/onedr0p/exportarr:v2.0.1
+        command: ["exportarr", "radarr"]
         ports:
         - containerPort: 9707
           name: metrics
