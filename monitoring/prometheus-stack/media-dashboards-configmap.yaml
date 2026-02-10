@@ -1,11 +1,12 @@
+---
 apiVersion: v1
-kind: ConfigMap
+knd: ConfigMap
 metadata:
-  name: media-dashboards-configmap
+  creationTimestamp: null
   namespace: prometheus-stack
+  name: media-dashboards-configmap
   labels:
     grafana_dashboard: "1"
-data:
 data:
   qbittorrent.json: |-
     {
@@ -2631,8 +2632,3 @@ data:
       "version": 5,
       "description": "This is a dashboard for Sonarr v3 (exportarr does not work with Sonarr v2). You will need to install exportarr (https://github.com/onedr0p/exportarr) in order to use this dashboard."
     }
-kind: ConfigMap
-metadata:
-  creationTimestamp: null
-  name: media-dashboards-configmap
-  namespace: prometheus-stack
