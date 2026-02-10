@@ -65,7 +65,7 @@ spec:
                       name: metrics
                   env:
                     - name: QBITTORRENT_HOST
-                      value: qbt.qbt.svc.cluster.local
+                      value: qbittorrent.qbt.svc.cluster.local
                     - name: QBITTORRENT_PORT
                       value: "80"
                     - name: QBITTORRENT_USER
