@@ -1,6 +1,6 @@
 operatorConfig:
     defaultTags:
-        - tag:k8
+        - tag:k8s
         - tag:homelab
     hostname: k8s-operator
 apiServerProxyConfig:
