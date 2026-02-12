@@ -3,6 +3,9 @@ global:
   # Ingress is disabled; external access is managed via HTTPRoute
   ingress:
     enabled: false
+
+# Ensure ClusterRoles are created for cluster-wide resource management
+createClusterRoles: true
 # ConfigMaps and feature flags
 configs:
   params:
