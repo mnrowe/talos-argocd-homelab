@@ -24,7 +24,7 @@ configs:
           - -c
           args:
           - |
-            set -euo pipefail
+            set -eu
             find . -type f \( -name '*.yaml' -o -name '*.yml' \) -print0 | while IFS= read -r -d '' f; do
               if grep -q '^sops:' "$f" || grep -q 'ENC\[' "$f"; then
                 sops --decrypt --in-place "$f"
