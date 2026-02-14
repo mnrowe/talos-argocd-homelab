@@ -15,6 +15,10 @@ rules:
 - apiGroups: [ "volsync.backube" ]
   resources: [ "replicationsources", "replicationdestinations" ]
   verbs: [ "get", "list", "watch", "create", "update", "delete" ]
+# Required by Kyverno generate controller to queue and process generate actions
+- apiGroups: [ "kyverno.io" ]
+  resources: [ "updaterequests", "updaterequests/status" ]
+  verbs: [ "get", "list", "watch", "create", "update", "patch", "delete" ]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
