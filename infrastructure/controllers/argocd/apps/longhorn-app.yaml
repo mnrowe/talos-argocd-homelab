@@ -44,4 +44,7 @@ spec:
     kind: Secret
     jsonPointers:
     - /data
-
+  - group: longhorn.io
+    kind: Node
+    jsonPointers:
+    - /metadata/generation
