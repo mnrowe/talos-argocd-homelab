@@ -25,7 +25,8 @@ spec:
       tls:
         mode: Terminate
         certificateRefs:
-        - kind: Secret
+        - group: ""
+          kind: Secret
           name: serverops-live-tls
       allowedRoutes:
         namespaces:
@@ -37,4 +38,3 @@ spec:
       allowedRoutes:
         namespaces:
           from: Same
-
