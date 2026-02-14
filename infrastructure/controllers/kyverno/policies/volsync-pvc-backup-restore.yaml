@@ -12,12 +12,16 @@ metadata:
       backend for faster backups with compression. MutatingAdmissionPolicy injects
       NFS mount into mover pods.
 spec:
+  admission: true
   mutateExistingOnPolicyUpdate: false
   background: true
+  emitWarning: false
+  validationFailureAction: Audit
   rules:
     # Rule 0: Conditionally add dataSourceRef if backup exists in Kopia
     # IMPORTANT: Only trigger on CREATE to avoid race conditions during PVC deletion
     - name: add-datasource-if-backup-exists
+      skipBackgroundRequests: true
       match:
         any:
           - resources:

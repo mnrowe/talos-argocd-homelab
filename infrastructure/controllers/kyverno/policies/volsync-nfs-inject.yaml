@@ -10,6 +10,10 @@ metadata:
       Injects NFS volume mount into VolSync mover jobs so Kopia can
       access the shared repository on NFS.
 spec:
+  admission: true
+  background: true
+  emitWarning: false
+  validationFailureAction: Audit
   rules:
     - name: inject-nfs-volume-add-volume
       match:
@@ -30,6 +34,7 @@ spec:
                     nfs:
                       server: "192.168.5.10"
                       path: "/mnt/pool/share/volsync-kopia"
+      skipBackgroundRequests: true
     - name: inject-nfs-volume-add-mounts
       match:
         any:
@@ -48,3 +53,4 @@ spec:
                 value:
                   name: repository
                   mountPath: /repository
+      skipBackgroundRequests: true
