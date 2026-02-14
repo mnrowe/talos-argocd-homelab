@@ -59,15 +59,19 @@ kind: Node
 metadata:
   name: talos-yvd-ywo
   namespace: longhorn-system
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
 spec:
+  allowScheduling: true
   disks:
     # Keep the default disk managed by Longhorn
     default-disk-080400000000:
       allowScheduling: true
+      diskDriver: ""
       diskType: filesystem
       evictionRequested: false
       path: /var/lib/longhorn
       storageReserved: 249351718912
       tags: []
+  evictionRequested: false
+  instanceManagerCPURequest: 0
+  name: talos-yvd-ywo
+  tags: []
