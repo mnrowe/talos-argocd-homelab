@@ -11,9 +11,9 @@ resources:
   - grafana-http-route.yaml
   - alertmanager-http-route.yaml
   - exportarr-deployment.yaml
-  # exportarr-secret.yaml # Managed separately - apply with: sops -d exportarr-secret.yaml | kubectl apply -f -
+  - exportarr-secret.yaml
   - exportarr-servicemonitor.yaml
-  # qbittorrent-exporter-secret.yaml # Managed separately - apply with: sops -d qbittorrent-exporter-secret.yaml | kubectl apply -f -
+  - qbittorrent-exporter-secret.yaml
   - qbittorrent-exporter-deployment.yaml
   - media-alerts.yaml
   - media-dashboards-configmap.yaml

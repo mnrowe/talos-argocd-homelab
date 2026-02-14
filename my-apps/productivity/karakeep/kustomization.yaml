@@ -5,7 +5,7 @@ resources:
   - ns.yaml
   - karakeep-pvc.yaml
   - meilisearch-pvc.yaml
-  # secret.yaml # Managed separately - apply with: sops -d secret.yaml | kubectl apply -f -
+  - secret.yaml
   - chrome-deployment.yaml
   - meilisearch-deployment.yaml
   - karakeep-deployment.yaml

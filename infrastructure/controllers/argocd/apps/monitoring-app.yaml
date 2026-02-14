@@ -6,11 +6,13 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "4"
 spec:
-  project: default
+  project: monitoring
   source:
     repoURL: https://github.com/mnrowe/talos-argocd-homelab.git
-    targetRevision: HEAD
+    targetRevision: main
     path: monitoring/prometheus-stack
+    plugin:
+      name: sops-kustomize
   destination:
     server: https://kubernetes.default.svc
     namespace: prometheus-stack

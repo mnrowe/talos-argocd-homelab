@@ -8,6 +8,29 @@ global:
 createClusterRoles: true
 # ConfigMaps and feature flags
 configs:
+  cmp:
+    create: true
+    plugins:
+      sops-kustomize:
+        discover:
+          find:
+            command:
+            - sh
+            - -c
+            - "find . -name 'kustomization.yaml' -print -quit"
+        generate:
+          command:
+          - sh
+          - -c
+          args:
+          - |
+            set -euo pipefail
+            find . -type f \( -name '*.yaml' -o -name '*.yml' \) -print0 | while IFS= read -r -d '' f; do
+              if grep -q '^sops:' "$f" || grep -q 'ENC\[' "$f"; then
+                sops --decrypt --in-place "$f"
+              fi
+            done
+            kustomize build --enable-helm
   params:
     # This ensures the server knows it is running behind a gateway
     # and should not handle TLS itself. This adds the --insecure flag
@@ -132,6 +155,11 @@ repoServer:
       secretName: sops-age-key
   - name: custom-tools
     emptyDir: {}
+  - name: argocd-cmp-cm
+    configMap:
+      name: argocd-cmp-cm
+  - name: cmp-tmp
+    emptyDir: {}
   volumeMounts:
   - name: sops-age-key
     mountPath: /helm-secrets-private-keys
@@ -145,6 +173,34 @@ repoServer:
     args:
     - cp /usr/local/bin/sops /custom-tools/sops
     volumeMounts:
+    - name: custom-tools
+      mountPath: /custom-tools
+  extraContainers:
+  - name: cmp-sops-kustomize
+    command:
+    - /var/run/argocd/argocd-cmp-server
+    image: quay.io/argoproj/argocd:v3.1.2
+    env:
+    - name: SOPS_AGE_KEY_FILE
+      value: /helm-secrets-private-keys/keys.txt
+    - name: PATH
+      value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/custom-tools
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 999
+    volumeMounts:
+    - mountPath: /var/run/argocd
+      name: var-files
+    - mountPath: /home/argocd/cmp-server/plugins
+      name: plugins
+    - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+      subPath: sops-kustomize.yaml
+      name: argocd-cmp-cm
+    - mountPath: /tmp
+      name: cmp-tmp
+    - name: sops-age-key
+      mountPath: /helm-secrets-private-keys
+      readOnly: true
     - name: custom-tools
       mountPath: /custom-tools
   resources:

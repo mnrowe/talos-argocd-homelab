@@ -8,9 +8,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/mnrowe/talos-argocd-homelab.git # TODO: Replace with your repository URL
+    repoURL: https://github.com/mnrowe/talos-argocd-homelab.git
     path: infrastructure/controllers/argocd/apps
-    targetRevision: HEAD
+    targetRevision: main
     kustomize: {}
   destination:
     server: https://kubernetes.default.svc
@@ -34,4 +34,3 @@ spec:
     kind: ApplicationSet
     jsonPointers:
     - /status
-

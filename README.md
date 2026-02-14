@@ -78,7 +78,7 @@ Or manually:
 ```bash
 kubectl create namespace argocd
 kubectl apply -k infrastructure/controllers/argocd/
-kubectl apply -f infrastructure/controllers/argocd/apps/root.yaml
+kubectl apply -f infrastructure/controllers/argocd/root.yaml
 ```
 
 ### 4. Configure secrets

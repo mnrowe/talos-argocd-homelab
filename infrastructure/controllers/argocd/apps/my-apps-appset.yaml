@@ -22,6 +22,8 @@ spec:
         repoURL: https://github.com/mnrowe/talos-argocd-homelab.git
         targetRevision: main
         path: '{{path}}'
+        plugin:
+          name: sops-kustomize
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{path.basename}}'
@@ -70,4 +72,3 @@ spec:
       info:
       - name: 'Description'
         value: 'Application: {{path.basename}}'
-

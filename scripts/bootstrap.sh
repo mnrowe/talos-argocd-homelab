@@ -20,7 +20,7 @@ echo ""
 echo "⎈ Installing ArgoCD via Helm..."
 helm upgrade --install argocd argo-cd \
   --repo https://argoproj.github.io/argo-helm \
-  --version 9.3.0 \
+  --version 9.3.7 \
   --namespace argocd \
   --values "$ROOT_DIR/infrastructure/controllers/argocd/values.yaml" \
   --wait \
@@ -40,7 +40,7 @@ kubectl wait --for=condition=Available deployment/argocd-server -n argocd --time
 echo ""
 echo "🔄 Deploying root application (enables self-management)..."
 kubectl apply -f "$ROOT_DIR/infrastructure/controllers/argocd/root.yaml"
-kubectl apply -f infrastructure/controllers/argocd/http-route.yaml
+kubectl apply -f "$ROOT_DIR/infrastructure/controllers/argocd/http-route.yaml"
 
 
 echo ""
@@ -63,4 +63,3 @@ echo ""
 echo "🔑 Get admin password:"
 echo "   kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
 echo ""
-
