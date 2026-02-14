@@ -47,4 +47,5 @@ spec:
   - group: longhorn.io
     kind: Node
     jsonPointers:
+    - /metadata
     - /metadata/generation
