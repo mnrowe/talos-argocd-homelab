@@ -14,6 +14,7 @@ spec:
 
   # Announce LoadBalancer IPs on the physical network interface
   interfaces:
+    - ^en[a-z0-9]+
     - ^eth[0-9]+
 
 
@@ -24,4 +25,3 @@ spec:
   # Use all nodes for L2 announcements
   nodeSelector:
     matchLabels: {}
-
