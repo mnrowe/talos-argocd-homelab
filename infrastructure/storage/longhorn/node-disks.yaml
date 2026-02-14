@@ -53,3 +53,21 @@ spec:
       path: /var/mnt/longhorn-nvme
       storageReserved: 51200000000  # 10% reserved
       tags: []
+---
+apiVersion: longhorn.io/v1beta2
+kind: Node
+metadata:
+  name: talos-yvd-ywo
+  namespace: longhorn-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  disks:
+    # Keep the default disk managed by Longhorn
+    default-disk-080400000000:
+      allowScheduling: true
+      diskType: filesystem
+      evictionRequested: false
+      path: /var/lib/longhorn
+      storageReserved: 249351718912
+      tags: []
