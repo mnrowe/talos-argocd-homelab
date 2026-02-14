@@ -25,7 +25,7 @@ configs:
           args:
           - |
             set -eu
-            find . -type f \( -name '*.yaml' -o -name '*.yml' \) -print0 | while IFS= read -r -d '' f; do
+            find . -type f \( -name '*.yaml' -o -name '*.yml' \) | while IFS= read -r f; do
               if grep -q '^sops:' "$f" || grep -q 'ENC\[' "$f"; then
                 sops --decrypt --in-place "$f"
               fi
