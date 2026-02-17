@@ -32,9 +32,9 @@ spec:
         - name: TZ
           value: America/New_York
         - name: PUID
-          value: "1001"
+          value: "1000"
         - name: PGID
-          value: "1001"
+          value: "1000"
         - name: WEBUI_PORT
           value: "8080"
         volumeMounts:
