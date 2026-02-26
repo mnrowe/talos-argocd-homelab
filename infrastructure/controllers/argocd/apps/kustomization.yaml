@@ -5,6 +5,7 @@ resources:
   # Critical applications with specific sync waves to prevent race conditions
   # Wave 0: Foundation components (networking + secrets infrastructure)
   - cilium-app.yaml        # Wave 0 - Networking foundation
+  - coredns-app.yaml       # Wave 0 - Cluster DNS forwarding config
   #- 1passwordconnect.yaml  # Wave 0 - Secret backend (required by External Secrets)
   #- external-secrets.yaml  # Wave 0 - External Secrets CRDs (required by Longhorn)
   - longhorn-app.yaml      # Wave 1 - Storage foundation
@@ -17,4 +18,3 @@ resources:
   - infrastructure-appset.yaml  # Wave 4
   #- monitoring-appset.yaml      # Wave 5
   - my-apps-appset.yaml         # Wave 6
-
