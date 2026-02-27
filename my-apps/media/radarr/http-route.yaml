@@ -7,7 +7,7 @@ metadata:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Radarr"
     gethomepage.dev/group: "Media"
-    gethomepage.dev/icon: "radarr.png"
+    gethomepage.dev/icon: "sh-radarr"
     gethomepage.dev/href: "https://rdr.serverops.live"
 spec:
   hostnames:
