@@ -3,6 +3,13 @@ kind: HTTPRoute
 metadata:
   name: longhorn
   namespace: longhorn-system
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Longhorn"
+    gethomepage.dev/group: "Infrastructure"
+    gethomepage.dev/icon: "mdi-harddisk"
+    gethomepage.dev/href: "https://longhorn.serverops.live"
+    gethomepage.dev/pod-selector: "app=longhorn-ui"
 spec:
   parentRefs:
     - group: gateway.networking.k8s.io
@@ -24,4 +31,3 @@ spec:
           name: longhorn-frontend
           port: 80
           weight: 1
-

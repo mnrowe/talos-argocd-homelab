@@ -3,7 +3,14 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
   name: kopia-ui
-  namespace: kopia-ui
+  namespace: kopia
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Kopia"
+    gethomepage.dev/group: "Infrastructure"
+    gethomepage.dev/icon: "mdi-backup-restore"
+    gethomepage.dev/href: "https://kopia.serverops.live"
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=kopia-ui"
 spec:
   parentRefs:
     - group: gateway.networking.k8s.io
@@ -24,4 +31,3 @@ spec:
           name: kopia-ui
           port: 80
           weight: 1
-
