@@ -45,24 +45,5 @@ spec:
     - prometheus-stack
 
 ---
-# ServiceMonitor for Jellyseerr Exportarr
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: exportarr-jellyseerr
-  namespace: prometheus-stack
-  labels:
-    app: exportarr
-    app.kubernetes.io/name: exportarr-jellyseerr
-spec:
-  selector:
-    matchLabels:
-      app: exportarr
-      app.kubernetes.io/name: exportarr-jellyseerr
-  endpoints:
-  - port: metrics
-    interval: 60s
-    path: /metrics
-  namespaceSelector:
-    matchNames:
-    - prometheus-stack
+#
+# NOTE: onedr0p/exportarr does not support Jellyseerr.

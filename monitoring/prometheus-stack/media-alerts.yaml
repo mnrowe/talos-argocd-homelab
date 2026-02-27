@@ -28,15 +28,6 @@ spec:
         summary: "Sonarr is down"
         description: "Sonarr has been unreachable for more than 5 minutes"
 
-    - alert: JellyseerrDown
-      expr: up{job="exportarr-jellyseerr"} == 0
-      for: 5m
-      labels:
-        severity: critical
-      annotations:
-        summary: "Jellyseerr is down"
-        description: "Jellyseerr has been unreachable for more than 5 minutes"
-
     - alert: QBittorrentDown
       expr: up{job="qbittorrent-exporter"} == 0
       for: 5m

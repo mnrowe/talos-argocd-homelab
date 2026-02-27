@@ -14,5 +14,12 @@ spec:
     sectionName: https
   rules:
   - backendRefs:
-    - name: kube-prometheus-stack-alertmanager
+    - group: ""
+      kind: Service
+      name: kube-prometheus-stack-alertmanager
       port: 9093
+      weight: 1
+    matches:
+    - path:
+        type: PathPrefix
+        value: /

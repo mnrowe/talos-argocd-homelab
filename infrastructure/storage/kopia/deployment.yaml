@@ -8,6 +8,8 @@ metadata:
     app.kubernetes.io/name: kopia-ui
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: kopia-ui
@@ -119,4 +121,3 @@ spec:
       port: 80
       targetPort: http
       protocol: TCP
-

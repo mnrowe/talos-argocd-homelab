@@ -15,5 +15,12 @@ spec:
     sectionName: https
   rules:
   - backendRefs:
-    - name: kube-prometheus-stack-prometheus
+    - group: ""
+      kind: Service
+      name: kube-prometheus-stack-prometheus
       port: 9090
+      weight: 1
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
