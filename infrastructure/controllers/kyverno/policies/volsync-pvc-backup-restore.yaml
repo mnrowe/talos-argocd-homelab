@@ -138,7 +138,9 @@ spec:
             operator: Equals
             value: "Bound"
       generate:
-        synchronize: true
+        # Don't continuously "synchronize" ReplicationSource objects after creation.
+        # VolSync owns the lifecycle/status and will update these resources.
+        synchronize: false
         apiVersion: volsync.backube/v1alpha1
         kind: ReplicationSource
         name: "{{request.object.metadata.name}}-backup"
@@ -191,7 +193,7 @@ spec:
                 - volsync-system
                 - kyverno
       generate:
-        synchronize: true
+        synchronize: false
         apiVersion: volsync.backube/v1alpha1
         kind: ReplicationDestination
         name: "{{request.object.metadata.name}}-backup"
