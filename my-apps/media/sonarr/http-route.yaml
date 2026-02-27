@@ -3,6 +3,12 @@ kind: HTTPRoute
 metadata:
   name: sonarr
   namespace: sonarr
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Sonarr"
+    gethomepage.dev/group: "Media"
+    gethomepage.dev/icon: "sonarr.png"
+    gethomepage.dev/href: "https://snr.serverops.live"
 spec:
   hostnames:
   - snr.serverops.live
