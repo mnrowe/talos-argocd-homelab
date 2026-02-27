@@ -3,6 +3,13 @@ kind: HTTPRoute
 metadata:
   name: freshrss
   namespace: freshrss
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "FreshRSS"
+    gethomepage.dev/group: "Media"
+    gethomepage.dev/icon: "mdi-rss-box"
+    gethomepage.dev/href: "https://rss.serverops.live"
+    gethomepage.dev/pod-selector: "app=freshrss"
 spec:
   hostnames:
   - rss.serverops.live
