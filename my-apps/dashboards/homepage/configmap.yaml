@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage-config
+  namespace: homepage
+data:
+  settings.yaml: |
+    title: Dashboard
+    startUrl: https://dash.serverops.live
+    theme: dark
+    color: slate
+    headerStyle: clean
+    layout:
+      Media:
+        tab: Media
+      Productivity:
+        tab: Productivity
+      Infrastructure:
+        tab: Infrastructure
+  kubernetes.yaml: |
+    mode: cluster
+    gateway: true
+    ingress: false
+  services.yaml: |
+    []
+  bookmarks.yaml: |
+    []
+  widgets.yaml: |
+    - kubernetes:
+        cluster:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+        nodes:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+    - resources:
+        backend: resources
+        expanded: true
+        cpu: true
+        memory: true
+    - datetime:
+        text_size: xl
+        format:
+          timeStyle: short
+  custom.css: |
+    :root {
+      --card-border-radius: 14px;
+    }
