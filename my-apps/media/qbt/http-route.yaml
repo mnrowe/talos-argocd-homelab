@@ -9,6 +9,7 @@ metadata:
     gethomepage.dev/group: "Media"
     gethomepage.dev/icon: "sh-qbittorrent"
     gethomepage.dev/href: "https://qbt.serverops.live"
+    gethomepage.dev/pod-selector: "app=qbittorrent"
 spec:
   hostnames:
   - qbt.serverops.live

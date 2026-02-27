@@ -9,6 +9,7 @@ metadata:
     gethomepage.dev/group: "Media"
     gethomepage.dev/icon: "sh-jellyfin"
     gethomepage.dev/href: "https://jelly.serverops.live"
+    gethomepage.dev/pod-selector: "app=jellyfin"
 spec:
   hostnames:
   - jelly.serverops.live

@@ -9,6 +9,7 @@ metadata:
     gethomepage.dev/group: "Media"
     gethomepage.dev/icon: "sh-radarr"
     gethomepage.dev/href: "https://rdr.serverops.live"
+    gethomepage.dev/pod-selector: "app=radarr"
 spec:
   hostnames:
   - rdr.serverops.live

@@ -9,6 +9,7 @@ metadata:
     gethomepage.dev/group: "Media"
     gethomepage.dev/icon: "sh-sonarr"
     gethomepage.dev/href: "https://snr.serverops.live"
+    gethomepage.dev/pod-selector: "app=sonarr"
 spec:
   hostnames:
   - snr.serverops.live
