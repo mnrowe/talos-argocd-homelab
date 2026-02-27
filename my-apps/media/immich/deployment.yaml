@@ -24,7 +24,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: immich-server
-          image: ghcr.io/immich-app/immich-server:v2.2.3
+          image: ghcr.io/immich-app/immich-server:release
           ports:
             - containerPort: 2283
               name: http
@@ -86,10 +86,12 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: immich-machine-learning
-          image: ghcr.io/immich-app/immich-machine-learning:v2.2.3
+          image: ghcr.io/immich-app/immich-machine-learning:release
           env:
             - name: TZ
               value: Etc/UTC
+            - name: MPLCONFIGDIR
+              value: /tmp/matplotlib
           volumeMounts:
             - name: cache
               mountPath: /cache
