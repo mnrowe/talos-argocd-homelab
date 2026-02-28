@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paperless
+  namespace: paperless
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: paperless
+  template:
+    metadata:
+      labels:
+        app: paperless
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: paperless
+          image: ghcr.io/paperless-ngx/paperless-ngx:latest
+          ports:
+            - containerPort: 8000
+              name: http
+          env:
+            - name: PAPERLESS_URL
+              value: https://docs.serverops.live
+            - name: PAPERLESS_CSRF_TRUSTED_ORIGINS
+              value: https://docs.serverops.live
+            - name: PAPERLESS_ALLOWED_HOSTS
+              value: docs.serverops.live
+            - name: PAPERLESS_TIME_ZONE
+              value: America/New_York
+            - name: PAPERLESS_REDIS
+              value: redis://paperless-redis:6379
+            - name: PAPERLESS_DBHOST
+              value: paperless-postgres
+            - name: PAPERLESS_DBPORT
+              value: "5432"
+            - name: PAPERLESS_DBENGINE
+              value: postgresql
+          envFrom:
+            - secretRef:
+                name: paperless-env
+          volumeMounts:
+            - name: data
+              mountPath: /usr/src/paperless/data
+            - name: media
+              mountPath: /usr/src/paperless/media
+            - name: export
+              mountPath: /usr/src/paperless/export
+            - name: consume
+              mountPath: /usr/src/paperless/consume
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: 100m
+            limits:
+              memory: 4Gi
+              cpu: 2000m
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: paperless-data
+        - name: media
+          persistentVolumeClaim:
+            claimName: paperless-media
+        - name: export
+          persistentVolumeClaim:
+            claimName: paperless-export
+        - name: consume
+          persistentVolumeClaim:
+            claimName: paperless-consume
