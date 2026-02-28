@@ -40,6 +40,7 @@ spec:
         volumeMounts:
         - name: config
           mountPath: /config
+          subPath: data/appdata/qbittorrent/config
         - name: torrents
           mountPath: /data/torrents
           subPath: data/torrents
@@ -55,7 +56,7 @@ spec:
       volumes:
       - name: config
         persistentVolumeClaim:
-          claimName: qbt-config
+          claimName: qbt-config-nfs
       - name: torrents
         persistentVolumeClaim:
           claimName: qbt-torrents

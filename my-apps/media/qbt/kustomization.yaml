@@ -4,6 +4,7 @@ namespace: qbt
 resources:
   - ns.yaml
   - qbt-config-pvc.yaml
+  - qbt-config-nfs-pvc.yaml
   - torrents-pvc.yaml
   - deployment.yaml
   - service.yaml
