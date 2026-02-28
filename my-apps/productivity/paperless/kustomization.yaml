@@ -9,6 +9,7 @@ resources:
   - media-pvc.yaml
   - export-pvc.yaml
   - consume-pvc.yaml
+  - replicationsources.yaml
   - postgres.yaml
   - redis.yaml
   - deployment.yaml

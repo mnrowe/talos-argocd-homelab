@@ -1,0 +1,129 @@
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: paperless-consume-backup
+  namespace: paperless
+spec:
+  sourcePVC: paperless-consume
+  trigger:
+    schedule: 0 3 * * *
+  kopia:
+    repository: volsync-paperless-consume
+    compression: zstd-fastest
+    parallelism: 2
+    retain:
+      daily: 2
+      weekly: 1
+      monthly: 1
+    copyMethod: Snapshot
+    storageClassName: longhorn
+    volumeSnapshotClassName: longhorn-snapclass
+    cacheCapacity: 2Gi
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: paperless-data-backup
+  namespace: paperless
+spec:
+  sourcePVC: paperless-data
+  trigger:
+    schedule: 0 3 * * *
+  kopia:
+    repository: volsync-paperless-data
+    compression: zstd-fastest
+    parallelism: 2
+    retain:
+      daily: 2
+      weekly: 1
+      monthly: 1
+    copyMethod: Snapshot
+    storageClassName: longhorn
+    volumeSnapshotClassName: longhorn-snapclass
+    cacheCapacity: 2Gi
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: paperless-export-backup
+  namespace: paperless
+spec:
+  sourcePVC: paperless-export
+  trigger:
+    schedule: 0 3 * * *
+  kopia:
+    repository: volsync-paperless-export
+    compression: zstd-fastest
+    parallelism: 2
+    retain:
+      daily: 2
+      weekly: 1
+      monthly: 1
+    copyMethod: Snapshot
+    storageClassName: longhorn
+    volumeSnapshotClassName: longhorn-snapclass
+    cacheCapacity: 2Gi
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: paperless-media-backup
+  namespace: paperless
+spec:
+  sourcePVC: paperless-media
+  trigger:
+    schedule: 0 3 * * *
+  kopia:
+    repository: volsync-paperless-media
+    compression: zstd-fastest
+    parallelism: 2
+    retain:
+      daily: 2
+      weekly: 1
+      monthly: 1
+    copyMethod: Snapshot
+    storageClassName: longhorn
+    volumeSnapshotClassName: longhorn-snapclass
+    cacheCapacity: 2Gi
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: paperless-postgres-backup
+  namespace: paperless
+spec:
+  sourcePVC: paperless-postgres
+  trigger:
+    schedule: 0 3 * * *
+  kopia:
+    repository: volsync-paperless-postgres
+    compression: zstd-fastest
+    parallelism: 2
+    retain:
+      daily: 2
+      weekly: 1
+      monthly: 1
+    copyMethod: Snapshot
+    storageClassName: longhorn
+    volumeSnapshotClassName: longhorn-snapclass
+    cacheCapacity: 2Gi
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
