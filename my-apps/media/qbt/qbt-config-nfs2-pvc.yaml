@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: qbt-config-nfs-pv
+  name: qbt-config-nfs2-pv
 spec:
   capacity:
     storage: 5Gi
@@ -10,7 +10,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: 192.168.5.10
-    path: /mnt/pool/share
+    path: /mnt/pool/share/data/appdata/qbittorrent/config
   mountOptions:
     - nfsvers=3
     - hard
@@ -18,7 +18,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: qbt-config-nfs
+  name: qbt-config-nfs2
   namespace: qbt
 spec:
   accessModes:
@@ -26,5 +26,5 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  volumeName: qbt-config-nfs-pv
+  volumeName: qbt-config-nfs2-pv
   storageClassName: ""
