@@ -15,8 +15,6 @@ spec:
       labels:
         app: qbittorrent
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: talos-x45-tef
       dnsPolicy: Default
       containers:
       - name: qbittorrent

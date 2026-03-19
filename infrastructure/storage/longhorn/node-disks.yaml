@@ -11,9 +11,9 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"  # Apply after Longhorn is running
 spec:
   disks:
-    # Keep the default disk (Longhorn auto-creates this)
+    # Keep the default disk object, but do not place replicas on the root disk
     default-disk-080600000000:
-      allowScheduling: true
+      allowScheduling: false
       diskType: filesystem
       evictionRequested: false
       path: /var/lib/longhorn
@@ -37,9 +37,9 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   disks:
-    # Keep the default disk
+    # Keep the default disk object, but do not place replicas on the root disk
     default-disk-080400000000:
-      allowScheduling: true
+      allowScheduling: false
       diskType: filesystem
       evictionRequested: false
       path: /var/lib/longhorn
