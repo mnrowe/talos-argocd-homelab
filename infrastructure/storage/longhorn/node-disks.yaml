@@ -5,32 +5,6 @@
 apiVersion: longhorn.io/v1beta2
 kind: Node
 metadata:
-  name: talos-x45-tef
-  namespace: longhorn-system
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"  # Apply after Longhorn is running
-spec:
-  disks:
-    # Keep the default disk object, but do not place replicas on the root disk
-    default-disk-080600000000:
-      allowScheduling: false
-      diskType: filesystem
-      evictionRequested: false
-      path: /var/lib/longhorn
-      storageReserved: 22222471168
-      tags: []
-    # Additional 275GB disk
-    sdb-disk:
-      allowScheduling: true
-      diskType: filesystem
-      evictionRequested: false
-      path: /var/mnt/longhorn-sdb
-      storageReserved: 27500000000  # 10% reserved
-      tags: []
----
-apiVersion: longhorn.io/v1beta2
-kind: Node
-metadata:
   name: talos-ujt-i5w
   namespace: longhorn-system
   annotations:
@@ -54,24 +28,3 @@ spec:
       storageReserved: 51200000000  # 10% reserved
       tags: []
 ---
-apiVersion: longhorn.io/v1beta2
-kind: Node
-metadata:
-  name: talos-yvd-ywo
-  namespace: longhorn-system
-spec:
-  allowScheduling: true
-  disks:
-    # Keep the default disk managed by Longhorn
-    default-disk-080400000000:
-      allowScheduling: true
-      diskDriver: ""
-      diskType: filesystem
-      evictionRequested: false
-      path: /var/lib/longhorn
-      storageReserved: 249351718912
-      tags: []
-  evictionRequested: false
-  instanceManagerCPURequest: 0
-  name: talos-yvd-ywo
-  tags: []

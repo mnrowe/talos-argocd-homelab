@@ -120,14 +120,4 @@ hubble:
 
 # Operator Configuration
 operator:
-  # CRITICAL FIX: Run 2 replicas for HA - single replica is a SPOF
-  replicas: 2
-  # Ensure replicas run on different nodes
-  affinity:
-    podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-      - labelSelector:
-          matchLabels:
-            io.cilium/app: operator
-        topologyKey: kubernetes.io/hostname
-
+  replicas: 1

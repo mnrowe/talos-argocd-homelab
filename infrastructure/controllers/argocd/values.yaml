@@ -122,9 +122,9 @@ applicationSet:
     limits:
       cpu: 1000m
       memory: 1Gi
-# High Availability setup
+# Single-node mode
 ha:
-  enabled: true
+  enabled: false
   redis:
     resources:
       requests:

@@ -25,13 +25,8 @@ persistence:
   # -- Specifies the default Longhorn StorageClass.
   defaultClass: true
   # -- Default number of replicas for volumes.
-  # OPTIMIZED: Reduced from 3 to 2 for homelab
-  # - Still provides redundancy (can lose 1 node)
-  # - 50% less IO overhead (2 writes instead of 3)
-  # - 50% less network traffic between nodes
-  # - 33% more usable storage (50% vs 33% efficiency)
-  # - Should reduce worker IO pressure from 37-42% to ~25-30%
-  defaultClassReplicaCount: 2
+  # Single-node mode: volumes must use a single replica or they remain degraded.
+  defaultClassReplicaCount: 1
   # -- Default filesystem type.
   defaultFsType: ext4
   # -- Reclaim policy for the default storage class.
@@ -40,4 +35,3 @@ persistence:
 # separate HTTPRoute resource.
 ingress:
   enabled: false
-
