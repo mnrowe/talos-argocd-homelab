@@ -106,8 +106,8 @@ spec:
           data:
             # Pass through base64-encoded values from source secret
             KOPIA_PASSWORD: "{{ sourceSecret.KOPIA_PASSWORD }}"
-            KOPIA_REPOSITORY: "{{ sourceSecret.KOPIA_REPOSITORY }}"
-            KOPIA_FS_PATH: "{{ sourceSecret.KOPIA_FS_PATH }}"
+            KOPIA_REPOSITORY: "{{ request.object.metadata.labels.\"backup-kopia-repository\" || sourceSecret.KOPIA_REPOSITORY }}"
+            KOPIA_FS_PATH: "{{ request.object.metadata.labels.\"backup-kopia-fs-path\" || sourceSecret.KOPIA_FS_PATH }}"
 
     # Rule 2: Generate ReplicationSource (backup schedule)
     # IMPORTANT: Only create backup AFTER PVC is Bound to avoid conflicts with restore
@@ -168,9 +168,9 @@ spec:
               copyMethod: Direct
               cacheCapacity: "2Gi"
               moverSecurityContext:
-                runAsUser: 568
-                runAsGroup: 568
-                fsGroup: 568
+                runAsUser: "{{ request.object.metadata.labels.\"backup-run-as-user\" || '568' }}"
+                runAsGroup: "{{ request.object.metadata.labels.\"backup-run-as-group\" || '568' }}"
+                fsGroup: "{{ request.object.metadata.labels.\"backup-fs-group\" || '568' }}"
 
     # Rule 3: Generate ReplicationDestination (restore capability)
     # Opt-in only. Always-on destinations create long-lived Longhorn backup-dest PVCs
@@ -221,6 +221,6 @@ spec:
               capacity: "{{ request.object.spec.resources.requests.storage }}"
               cacheCapacity: "2Gi"
               moverSecurityContext:
-                runAsUser: 568
-                runAsGroup: 568
-                fsGroup: 568
+                runAsUser: "{{ request.object.metadata.labels.\"backup-run-as-user\" || '568' }}"
+                runAsGroup: "{{ request.object.metadata.labels.\"backup-run-as-group\" || '568' }}"
+                fsGroup: "{{ request.object.metadata.labels.\"backup-fs-group\" || '568' }}"
