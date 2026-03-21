@@ -15,7 +15,7 @@ spec:
     default-disk-080400000000:
       allowScheduling: false
       diskType: filesystem
-      evictionRequested: false
+      evictionRequested: true
       path: /var/lib/longhorn
       storageReserved: 124388687872
       tags: []
