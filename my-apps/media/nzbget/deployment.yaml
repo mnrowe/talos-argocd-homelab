@@ -15,7 +15,6 @@ spec:
       labels:
         app: nzbget
     spec:
-      dnsPolicy: Default
       containers:
       - name: nzbget
         image: lscr.io/linuxserver/nzbget:latest
@@ -26,9 +25,9 @@ spec:
         - name: TZ
           value: America/New_York
         - name: PUID
-          value: "1000"
+          value: "1001"
         - name: PGID
-          value: "1000"
+          value: "1001"
         volumeMounts:
         - name: config
           mountPath: /config

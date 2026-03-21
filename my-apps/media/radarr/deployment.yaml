@@ -15,7 +15,6 @@ spec:
       labels:
         app: radarr
     spec:
-      dnsPolicy: Default
       containers:
       - name: radarr
         image: lscr.io/linuxserver/radarr:latest

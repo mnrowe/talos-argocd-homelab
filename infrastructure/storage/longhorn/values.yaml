@@ -21,6 +21,13 @@ defaultSettings:
 # like ArgoCD to prevent sync failures.
 preUpgradeChecker:
   jobEnabled: false
+longhornManager:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 1Gi
 persistence:
   # -- Specifies the default Longhorn StorageClass.
   defaultClass: true

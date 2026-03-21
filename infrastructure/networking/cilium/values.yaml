@@ -95,6 +95,13 @@ l2NeighDiscovery:
 loadBalancer:
   acceleration: best-effort
 
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    memory: 2Gi
+
 # Increase API rate limits for L2 announcer lease management
 # Formula: QPS = #services * (1 / leaseRenewDeadline)
 # With 15 services: 15 * (1/5) = 3 QPS, so 20 QPS gives headroom
@@ -117,6 +124,14 @@ hubble:
     enabled: true
   ui:
     enabled: true
+
+envoy:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 1Gi
 
 # Operator Configuration
 operator:
