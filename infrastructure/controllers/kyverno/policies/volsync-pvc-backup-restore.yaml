@@ -163,9 +163,9 @@ spec:
                 daily: 2
                 weekly: 1
                 monthly: 1
-              copyMethod: Snapshot
-              storageClassName: longhorn
-              volumeSnapshotClassName: longhorn-snapclass
+              # Direct mode avoids creating a Longhorn snapshot, temporary restore PVC,
+              # and the extra detached Longhorn volume for every backup run.
+              copyMethod: Direct
               cacheCapacity: "2Gi"
               moverSecurityContext:
                 runAsUser: 568
@@ -173,6 +173,8 @@ spec:
                 fsGroup: 568
 
     # Rule 3: Generate ReplicationDestination (restore capability)
+    # Opt-in only. Always-on destinations create long-lived Longhorn backup-dest PVCs
+    # for every protected volume, which adds a lot of detached volume pressure.
     - name: generate-replication-destination
       skipBackgroundRequests: false
       match:
@@ -185,6 +187,9 @@ spec:
                   - key: backup
                     operator: In
                     values: ["hourly", "daily"]
+                  - key: backup-restore
+                    operator: In
+                    values: ["enabled"]
       exclude:
         any:
           - resources:

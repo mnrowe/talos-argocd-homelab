@@ -15,9 +15,8 @@ spec:
       daily: 2
       weekly: 1
       monthly: 1
-    copyMethod: Snapshot
-    storageClassName: longhorn
-    volumeSnapshotClassName: longhorn-snapclass
+    # Direct mode avoids creating Longhorn snapshots and temporary backup PVCs.
+    copyMethod: Direct
     cacheCapacity: 2Gi
     moverSecurityContext:
       runAsUser: 568
@@ -41,9 +40,8 @@ spec:
       daily: 2
       weekly: 1
       monthly: 1
-    copyMethod: Snapshot
-    storageClassName: longhorn
-    volumeSnapshotClassName: longhorn-snapclass
+    # Direct mode avoids creating Longhorn snapshots and temporary backup PVCs.
+    copyMethod: Direct
     cacheCapacity: 2Gi
     moverSecurityContext:
       runAsUser: 568
@@ -67,9 +65,8 @@ spec:
       daily: 2
       weekly: 1
       monthly: 1
-    copyMethod: Snapshot
-    storageClassName: longhorn
-    volumeSnapshotClassName: longhorn-snapclass
+    # Direct mode avoids creating Longhorn snapshots and temporary backup PVCs.
+    copyMethod: Direct
     cacheCapacity: 2Gi
     moverSecurityContext:
       runAsUser: 568
@@ -93,9 +90,8 @@ spec:
       daily: 2
       weekly: 1
       monthly: 1
-    copyMethod: Snapshot
-    storageClassName: longhorn
-    volumeSnapshotClassName: longhorn-snapclass
+    # Direct mode avoids creating Longhorn snapshots and temporary backup PVCs.
+    copyMethod: Direct
     cacheCapacity: 2Gi
     moverSecurityContext:
       runAsUser: 568
@@ -119,9 +115,8 @@ spec:
       daily: 2
       weekly: 1
       monthly: 1
-    copyMethod: Snapshot
-    storageClassName: longhorn
-    volumeSnapshotClassName: longhorn-snapclass
+    # Direct mode avoids creating Longhorn snapshots and temporary backup PVCs.
+    copyMethod: Direct
     cacheCapacity: 2Gi
     moverSecurityContext:
       runAsUser: 568
