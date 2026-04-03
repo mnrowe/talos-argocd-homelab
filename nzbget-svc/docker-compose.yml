@@ -1,0 +1,34 @@
+version: "2"
+services:
+  nzbget:
+    image: lscr.io/linuxserver/nzbget:latest
+    container_name: nzbget
+    environment:
+      - TZ=America/New_York
+      - PUID=1001
+      - PGID=1001
+    volumes:
+      - /home/rwe/docker/nzbget/config:/config
+      - /home/rwe/truenas/data/usenet:/data/usenet
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nzbget.entrypoints=http"
+      - "traefik.http.routers.nzbget.rule=Host(`nzb.serverops.live`)"
+      - "traefik.http.middlewares.nzbget-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.nzbget.middlewares=nzbget-https-redirect"
+      - "traefik.http.routers.nzbget-secure.entrypoints=https"
+      - "traefik.http.routers.nzbget-secure.rule=Host(`nzb.serverops.live`)"
+      - "traefik.http.routers.nzbget-secure.tls=true"
+      - "traefik.http.routers.nzbget-secure.service=nzbget"
+      - "traefik.http.services.nzbget.loadbalancer.server.port=6789"
+      - "traefik.docker.network=proxy"
+    networks:
+      proxy:
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  proxy:
+    external: true
+

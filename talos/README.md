@@ -6,7 +6,6 @@ This directory contains Talos machine configuration patches for the cluster node
 
 Additional disks are configured for Longhorn storage on specific nodes:
 
-- **Node 192.168.5.103**: `/dev/sdb` (275 GB) mounted at `/var/mnt/longhorn-sdb`
 - **Node 192.168.5.104**: `/dev/nvme0n1` (512 GB) mounted at `/var/mnt/longhorn-nvme`
 
 ## Applying Patches
@@ -14,9 +13,6 @@ Additional disks are configured for Longhorn storage on specific nodes:
 After initial Talos installation, apply the disk patches:
 
 ```bash
-# Node 103 - Add sdb disk
-talosctl -n 192.168.5.103 patch machineconfig --patch @talos/node-103-disk-patch.yaml
-
 # Node 104 - Add nvme disk
 talosctl -n 192.168.5.104 patch machineconfig --patch @talos/node-104-disk-patch.yaml
 ```
