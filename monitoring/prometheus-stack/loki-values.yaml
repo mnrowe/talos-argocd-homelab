@@ -1,0 +1,62 @@
+# Loki configuration for the homelab cluster.
+
+deploymentMode: SingleBinary
+
+loki:
+  auth_enabled: false
+  commonConfig:
+    replication_factor: 1
+  limits_config:
+    retention_period: 168h
+    volume_enabled: true
+  storage:
+    type: filesystem
+  schemaConfig:
+    configs:
+      - from: "2024-04-01"
+        store: tsdb
+        object_store: filesystem
+        schema: v13
+        index:
+          prefix: index_
+          period: 24h
+
+singleBinary:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+  persistence:
+    enabled: true
+    size: 20Gi
+    storageClass: longhorn
+    annotations:
+      longhorn.io/recurring-job-source: enabled
+      longhorn.io/recurring-job-group: important
+      volume.beta.kubernetes.io/storage-provisioner: driver.longhorn.io
+
+read:
+  replicas: 0
+
+write:
+  replicas: 0
+
+backend:
+  replicas: 0
+
+gateway:
+  enabled: true
+
+chunksCache:
+  enabled: false
+
+resultsCache:
+  enabled: false
+
+monitoring:
+  serviceMonitor:
+    enabled: true

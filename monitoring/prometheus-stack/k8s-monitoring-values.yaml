@@ -1,0 +1,39 @@
+cluster:
+  name: divx
+
+destinations:
+  loki:
+    type: loki
+    url: http://loki-gateway.prometheus-stack.svc.cluster.local/loki/api/v1/push
+
+selfReporting:
+  enabled: false
+
+clusterEvents:
+  enabled: true
+  collector: alloy-singleton
+  destinations:
+    - loki
+
+nodeLogs:
+  enabled: false
+
+podLogsViaKubernetesApi:
+  enabled: true
+  collector: alloy-logs
+  destinations:
+    - loki
+
+collectors:
+  alloy-logs:
+    enabled: true
+    alloy:
+      clustering:
+        enabled: true
+      mounts:
+        varlog: false
+  alloy-singleton:
+    enabled: true
+    controller:
+      type: deployment
+      replicas: 1

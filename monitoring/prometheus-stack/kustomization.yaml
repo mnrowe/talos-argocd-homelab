@@ -25,3 +25,15 @@ helmCharts:
   releaseName: kube-prometheus-stack
   namespace: prometheus-stack
   valuesFile: values.yaml
+- name: loki
+  repo: https://grafana-community.github.io/helm-charts
+  version: 7.0.0
+  releaseName: loki
+  namespace: prometheus-stack
+  valuesFile: loki-values.yaml
+- name: k8s-monitoring
+  repo: https://grafana.github.io/helm-charts
+  version: 4.1.3
+  releaseName: k8s-monitoring
+  namespace: prometheus-stack
+  valuesFile: k8s-monitoring-values.yaml

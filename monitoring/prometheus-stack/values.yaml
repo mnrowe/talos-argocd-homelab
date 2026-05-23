@@ -163,6 +163,15 @@ grafana:
   # Enable plugins
   plugins: []
 
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki-gateway.prometheus-stack.svc.cluster.local
+      isDefault: false
+      jsonData:
+        maxLines: 1000
+
   # Default dashboards
   defaultDashboardsEnabled: true
   defaultDashboardsTimezone: America/New_York
