@@ -37,3 +37,4 @@ helmCharts:
   releaseName: k8s-monitoring
   namespace: prometheus-stack
   valuesFile: k8s-monitoring-values.yaml
+  includeCRDs: true
