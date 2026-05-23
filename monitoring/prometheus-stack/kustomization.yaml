@@ -9,6 +9,7 @@ resources:
   - custom-alerts.yaml
   - prometheus-http-route.yaml
   - grafana-http-route.yaml
+  - loki-http-route.yaml
   - alertmanager-http-route.yaml
   - exportarr-deployment.yaml
   - exportarr-secret.yaml
