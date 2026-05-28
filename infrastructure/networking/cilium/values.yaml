@@ -113,7 +113,7 @@ k8sClientRateLimit:
 gatewayAPI:
   enabled: true
   gatewayClass:
-    create: true
+    create: "true"
   # Use Cluster mode for L2 announcements to work properly
   externalTrafficPolicy: Cluster
   hostNetwork:
