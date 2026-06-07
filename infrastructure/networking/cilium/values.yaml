@@ -98,9 +98,9 @@ loadBalancer:
 resources:
   requests:
     cpu: 250m
-    memory: 512Mi
+    memory: 768Mi
   limits:
-    memory: 2Gi
+    memory: 4Gi
 
 # Increase API rate limits for L2 announcer lease management
 # Formula: QPS = #services * (1 / leaseRenewDeadline)
