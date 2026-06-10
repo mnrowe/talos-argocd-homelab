@@ -12,7 +12,7 @@ spec:
     server: 192.168.5.10
     path: /mnt/pool/share
   mountOptions:
-    - nfsvers=4.1
+    - nfsvers=3
     - soft
     - timeo=30
     - retrans=3
