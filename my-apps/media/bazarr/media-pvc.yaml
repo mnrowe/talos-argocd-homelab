@@ -16,7 +16,6 @@ spec:
     - soft
     - timeo=30
     - retrans=3
-    - noresvport
     - noatime
 ---
 apiVersion: v1
