@@ -12,8 +12,12 @@ spec:
     server: 192.168.5.10
     path: /mnt/pool/share/qbt-config
   mountOptions:
-    - nfsvers=3
+    - nfsvers=4.1
     - hard
+    - timeo=30
+    - retrans=3
+    - noresvport
+    - noatime
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
