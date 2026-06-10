@@ -1,0 +1,31 @@
+# Talos Machine Config Patch — Kubelet Memory Eviction Thresholds
+#
+# Raises kubelet eviction thresholds so the scheduler proactively evicts
+# low-priority pods when memory gets tight, rather than letting the Linux
+# OOM killer fire at 100% (which kills whatever it wants, including Longhorn
+# instance managers).
+#
+# Apply to all nodes:
+#   talosctl -n <node-ip> patch machineconfig --patch @talos/kubelet-eviction-patch.yaml
+#
+# Verify active thresholds after applying:
+#   talosctl -n <node-ip> get kubeletconfig -o yaml | grep -A10 eviction
+
+machine:
+  kubelet:
+    extraConfig:
+      # Hard eviction — kubelet kills pods immediately, no grace period.
+      # Fires when available memory drops below 500Mi.
+      evictionHard:
+        memory.available: "500Mi"
+        nodefs.available: "10%"
+      # Soft eviction — kubelet gives pods time to shut down gracefully.
+      # Fires at 1.5Gi so we have a window before the hard threshold.
+      evictionSoft:
+        memory.available: "1500Mi"
+        nodefs.available: "15%"
+      evictionSoftGracePeriod:
+        memory.available: "1m30s"
+        nodefs.available: "2m"
+      # Max time kubelet waits for a pod to terminate during eviction.
+      evictionMaxPodGracePeriod: 120

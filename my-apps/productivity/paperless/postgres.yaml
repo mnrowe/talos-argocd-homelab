@@ -30,6 +30,16 @@ spec:
         app: paperless-postgres
     spec:
       enableServiceLinks: false
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - talos-lg5-et7
       containers:
         - name: postgres
           image: docker.io/postgres:16-alpine
@@ -58,7 +68,7 @@ spec:
               subPath: pgdata
           resources:
             requests:
-              memory: 256Mi
+              memory: 1Gi
               cpu: 50m
             limits:
               memory: 2Gi
