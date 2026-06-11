@@ -17,9 +17,6 @@ defaultSettings:
   engineReplicaTimeout: "8"
   # Reduced from 12 to 8 for homelab - still provides good performance with less CPU reservation
   guaranteedInstanceManagerCPU: "8"
-  # Memory request for instance manager pods. Without this the OOM killer targets them
-  # first (oom_score ~999) causing all volumes on a node to drop when memory is tight.
-  guaranteedInstanceManagerMemory: "512"
 # -- Disables the pre-upgrade check job. This is recommended for GitOps tools
 # like ArgoCD to prevent sync failures.
 preUpgradeChecker:

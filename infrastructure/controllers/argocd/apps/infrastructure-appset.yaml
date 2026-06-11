@@ -12,6 +12,7 @@ spec:
       revision: main
       directories:
       - path: infrastructure/controllers/cert-manager
+      - path: infrastructure/controllers/metrics-server
       - path: infrastructure/networking/gateway
       - path: infrastructure/storage/csi-driver-smb
       - path: infrastructure/storage/kopia
