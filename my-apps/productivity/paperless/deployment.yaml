@@ -16,15 +16,7 @@ spec:
         app: paperless
     spec:
       enableServiceLinks: false
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: NotIn
-                    values:
-                      - talos-ujt-i5w
+
       containers:
         - name: paperless
           image: ghcr.io/paperless-ngx/paperless-ngx:latest

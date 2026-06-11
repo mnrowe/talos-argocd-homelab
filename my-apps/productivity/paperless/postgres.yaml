@@ -30,15 +30,7 @@ spec:
         app: paperless-postgres
     spec:
       enableServiceLinks: false
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: NotIn
-                    values:
-                      - talos-ujt-i5w
+
       containers:
         - name: postgres
           image: docker.io/postgres:16-alpine
