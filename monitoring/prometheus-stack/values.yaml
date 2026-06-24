@@ -37,6 +37,16 @@ prometheus:
 
     # Prefer talos-lg5-et7 — it has the most memory headroom and doesn't
     # host Longhorn volume engines, so a Prometheus OOM won't drop storage.
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: In
+                  values:
+                    - talos-lg5-et7
 
     # Resource allocation
     resources:

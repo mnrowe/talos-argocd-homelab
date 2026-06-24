@@ -17,6 +17,17 @@ spec:
     spec:
       enableServiceLinks: false
 
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - talos-lg5-et7
+
       containers:
         - name: paperless
           image: ghcr.io/paperless-ngx/paperless-ngx:latest
