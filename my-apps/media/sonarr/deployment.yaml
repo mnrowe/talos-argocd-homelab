@@ -15,6 +15,10 @@ spec:
       labels:
         app: sonarr
     spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
       containers:
       - name: sonarr
         image: lscr.io/linuxserver/sonarr:latest

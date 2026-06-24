@@ -15,6 +15,10 @@ spec:
       labels:
         app: bazarr
     spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
       containers:
       - name: bazarr
         image: lscr.io/linuxserver/bazarr:latest

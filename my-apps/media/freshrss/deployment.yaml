@@ -15,6 +15,10 @@ spec:
       labels:
         app: freshrss
     spec:
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "1"
       containers:
       - name: freshrss
         image: lscr.io/linuxserver/freshrss:latest
