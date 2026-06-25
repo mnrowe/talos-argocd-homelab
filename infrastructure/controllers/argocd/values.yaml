@@ -3,6 +3,15 @@ global:
   # Ingress is disabled; external access is managed via HTTPRoute
   ingress:
     enabled: false
+  # Prefer talos-lg5-et7 to relieve CPU-request pressure on talos-3vy-yfe
+  affinity:
+    nodeAffinity:
+      type: soft
+      matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+            - talos-lg5-et7
 
 # Ensure ClusterRoles are created for cluster-wide resource management
 createClusterRoles: true
