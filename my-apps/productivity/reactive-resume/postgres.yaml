@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: reactive-resume-postgres
+  namespace: reactive-resume
+spec:
+  selector:
+    app: reactive-resume-postgres
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
+      protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reactive-resume-postgres
+  namespace: reactive-resume
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: reactive-resume-postgres
+  template:
+    metadata:
+      labels:
+        app: reactive-resume-postgres
+    spec:
+      enableServiceLinks: false
+      containers:
+        - name: postgres
+          image: docker.io/postgres:16-alpine
+          ports:
+            - containerPort: 5432
+              name: postgres
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: reactive-resume-env
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: reactive-resume-env
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: reactive-resume-env
+                  key: POSTGRES_DB
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+              subPath: pgdata
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 50m
+            limits:
+              memory: 1Gi
+              cpu: 1000m
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: reactive-resume-postgres

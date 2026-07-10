@@ -1,0 +1,32 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: reactive-resume
+  namespace: reactive-resume
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Reactive Resume"
+    gethomepage.dev/group: "Productivity"
+    gethomepage.dev/icon: "mdi-file-account-outline"
+    gethomepage.dev/href: "https://resume.serverops.live"
+    gethomepage.dev/pod-selector: "app=reactive-resume"
+spec:
+  hostnames:
+    - resume.serverops.live
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: gateway-internal
+      namespace: gateway
+      sectionName: https
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: reactive-resume
+          port: 80
+          weight: 1
