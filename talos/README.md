@@ -19,22 +19,56 @@ talosctl -n 192.168.5.104 patch machineconfig --patch @talos/node-104-disk-patch
 
 **Note:** These patches require a node reboot to take effect.
 
-## OOM Controller Workaround
+## Upgrading Talos — always use the Image Factory image
 
-`oom-controller-patch.yaml` is applied to **all three nodes** and does **not**
-require a reboot. It works around siderolabs/talos#12526 on v1.12.1, where the
-default userspace OOM controller SIGKILLed Burstable/BestEffort pod cgroups
-while nodes still had ~10Gi free — killing Longhorn instance-managers, which
-detached volumes, which made Longhorn delete every workload pod on a loop.
+These nodes run a custom Image Factory build carrying three system extensions:
+
+| Extension | Needed for |
+|---|---|
+| `i915` | Intel GPU / QuickSync — Jellyfin hardware transcode (`/dev/dri`) |
+| `iscsi-tools` | Longhorn volume attach |
+| `util-linux-tools` | — |
+
+Schematic ID: `0751f1135eff2bc906854a62cc450c94f3dc65428d42110fc7998db8959dd5e5`
+
+**Upgrading with the stock `ghcr.io/siderolabs/installer` image silently strips
+all three extensions.** That breaks Longhorn on the node (`CSINode ... does not
+contain driver driver.longhorn.io`, longhorn-manager CrashLoop on a missing
+`iscsiadm`) and removes `/dev/dri`, so Jellyfin loses hardware transcode. Node
+data is unaffected — re-running the upgrade with the correct image restores it.
+
+Always upgrade with:
 
 ```bash
-for n in 192.168.5.104 192.168.5.106 192.168.5.115; do
-  talosctl -n $n patch machineconfig --patch-file talos/oom-controller-patch.yaml
-done
+IMG=factory.talos.dev/metal-installer/0751f1135eff2bc906854a62cc450c94f3dc65428d42110fc7998db8959dd5e5:vX.Y.Z
+talosctl -n <node-ip> upgrade --image $IMG --wait
 ```
 
-**Remove this patch after upgrading to Talos >= v1.12.2**, which fixes the root
-cause. See the header comment in the patch file for full detail.
+One node at a time; Talos refuses to proceed if it would break etcd quorum.
+Upgrade the etcd leader last (`talosctl -n <ip> etcd status` shows the leader).
+Verify afterwards:
+
+```bash
+talosctl -n <node-ip> get extensions   # expect i915, iscsi-tools, util-linux-tools
+talosctl -n <node-ip> ls /dev/dri      # expect card0 + renderD128 on GPU nodes
+```
+
+**Note:** `machine.install.image` in the machine config still points at the
+stock installer on some nodes. That value is only consulted at install/upgrade
+time, but it makes the wrong image easy to pick up — prefer passing `--image`
+explicitly as above.
+
+## OOM Controller (historical)
+
+Talos v1.12.0/v1.12.1 shipped a userspace OOM controller that SIGKILLed
+Burstable/BestEffort pod cgroups while nodes still had ~10Gi free
+(siderolabs/talos#12526). It killed Longhorn instance-managers, which detached
+volumes, which made Longhorn delete every workload pod on a loop.
+
+Resolved by upgrading to **v1.12.11**. Note that the `OOMConfig` machine config
+document is *not* honoured on v1.12.x — the resource is not registered
+(`talosctl get oomconfig` returns NotFound), so tuning the controller via config
+is not an option on this release; upgrading is.
 
 ## Bootstrap Order
 
