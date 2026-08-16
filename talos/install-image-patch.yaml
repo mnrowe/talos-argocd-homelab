@@ -1,0 +1,29 @@
+# Talos Machine Config Patch — install.image
+#
+# Points machine.install.image at the Image Factory build carrying this
+# cluster's system extensions (i915, iscsi-tools, util-linux-tools) rather
+# than the stock ghcr.io/siderolabs/installer.
+#
+# Schematic: 0751f1135eff2bc906854a62cc450c94f3dc65428d42110fc7998db8959dd5e5
+#
+# Why this matters: upgrading or reinstalling with the stock installer image
+# silently strips all three extensions. That breaks Longhorn on the node
+# (longhorn-manager CrashLoops on a missing iscsiadm, and CSINode loses
+# driver.longhorn.io so no volume can attach) and empties /dev/dri, costing
+# Jellyfin its hardware transcode.
+#
+# Apply to all nodes (no reboot — this only takes effect on the next
+# install/upgrade):
+#   for n in 192.168.5.104 192.168.5.106 192.168.5.115; do
+#     talosctl -n $n patch machineconfig --patch-file talos/install-image-patch.yaml
+#   done
+#
+# Verify:
+#   talosctl -n <node-ip> get machineconfig -o yaml | grep -A4 "  install:"
+#
+# Keep the tag in step with the running version when upgrading, and still
+# pass --image explicitly to `talosctl upgrade` (see README).
+
+machine:
+  install:
+    image: factory.talos.dev/metal-installer/0751f1135eff2bc906854a62cc450c94f3dc65428d42110fc7998db8959dd5e5:v1.12.11

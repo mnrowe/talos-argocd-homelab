@@ -53,10 +53,10 @@ talosctl -n <node-ip> get extensions   # expect i915, iscsi-tools, util-linux-to
 talosctl -n <node-ip> ls /dev/dri      # expect card0 + renderD128 on GPU nodes
 ```
 
-**Note:** `machine.install.image` in the machine config still points at the
-stock installer on some nodes. That value is only consulted at install/upgrade
-time, but it makes the wrong image easy to pick up — prefer passing `--image`
-explicitly as above.
+**Note:** `machine.install.image` is set to the factory image on all three nodes
+via `install-image-patch.yaml`. Keep its tag in step when upgrading, and still
+pass `--image` explicitly to `talosctl upgrade` — the config value is only
+consulted at install time, so it is a safety net, not the mechanism.
 
 ## OOM Controller (historical)
 
