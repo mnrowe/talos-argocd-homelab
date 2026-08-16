@@ -15,24 +15,26 @@ spec:
       labels:
         app: jellyfin
     spec:
-      # /dev/dri is a hostPath and mounts as an empty dir on nodes with no GPU,
-      # which silently breaks hw transcode. talos-lg5-et7 has no GPU, so restrict
-      # scheduling to the two nodes that do, preferring ujt (lg5 is CPU-bound and
-      # 3vy is the more loaded of the GPU pair).
-      # Soft affinity only: stays schedulable on all 3 nodes, but strongly prefers
-      # the two with a real GPU. talos-lg5-et7 has no /dev/dri, so it is a
-      # last-resort fallback where transcoding drops to software.
+      # /dev/dri is a hostPath: on a node with no GPU it mounts as an empty dir
+      # and hw transcode silently fails (the pod stays Running but playback dies
+      # with an encoder error). talos-lg5-et7 has no GPU, so this is REQUIRED,
+      # not preferred -- a soft preference was tested and the scheduler still
+      # chose lg5, since its 30Gi of RAM wins on resource-balance scoring.
+      # Failover is between the two GPU nodes; if both are down, Pending is more
+      # honest than Running-but-broken on lg5.
+      # Prefer 3vy so jellyfin and Prometheus (now on ujt) don't stack up.
       affinity:
         nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            preference:
-              matchExpressions:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
               - key: kubernetes.io/hostname
                 operator: In
                 values:
+                - talos-3vy-yfe
                 - talos-ujt-i5w
-          - weight: 50
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
             preference:
               matchExpressions:
               - key: kubernetes.io/hostname

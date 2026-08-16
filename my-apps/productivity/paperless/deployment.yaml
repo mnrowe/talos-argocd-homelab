@@ -17,6 +17,12 @@ spec:
     spec:
       enableServiceLinks: false
 
+      # Prefer talos-3vy-yfe. Paperless OCR bursts to ~1462m, and it was stacked
+      # on the 4-core talos-lg5-et7 together with Prometheus, Loki and ArgoCD,
+      # which drove that node to 91% of allocatable CPU requests. Those pins were
+      # originally added to relieve CPU pressure on 3vy, but that pressure was the
+      # Talos OOM controller killing cilium in a loop, now fixed -- 3vy sits at
+      # ~18% actual CPU and has headroom for the OCR spikes.
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -26,7 +32,7 @@ spec:
                   - key: kubernetes.io/hostname
                     operator: In
                     values:
-                      - talos-lg5-et7
+                      - talos-3vy-yfe
 
       containers:
         - name: paperless
