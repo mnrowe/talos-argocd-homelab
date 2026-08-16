@@ -35,8 +35,12 @@ prometheus:
             requests:
               storage: 20Gi
 
-    # Prefer talos-lg5-et7 — it has the most memory headroom and doesn't
-    # host Longhorn volume engines, so a Prometheus OOM won't drop storage.
+    # Prefer talos-ujt-i5w. Was on talos-lg5-et7, but that node has only 4 cores
+    # and Prometheus was sitting at ~1852m against its 2000m limit, pushing lg5 to
+    # 91% of allocatable CPU requests (71-97% actual) and starving everything else
+    # on it. ujt has 6 cores at ~17% actual CPU, so it absorbs this comfortably.
+    # The old "lg5 hosts no Longhorn volume engines" rationale is stale -- it runs
+    # a Longhorn instance-manager now, so that no longer distinguishes the nodes.
     affinity:
       nodeAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
@@ -46,7 +50,7 @@ prometheus:
                 - key: kubernetes.io/hostname
                   operator: In
                   values:
-                    - talos-lg5-et7
+                    - talos-ujt-i5w
 
     # Resource allocation
     resources:
