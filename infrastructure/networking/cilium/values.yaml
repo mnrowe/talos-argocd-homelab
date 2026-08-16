@@ -95,12 +95,52 @@ l2NeighDiscovery:
 loadBalancer:
   acceleration: best-effort
 
+# Talos 1.12 ships a userspace PSI-based OOM controller that was SIGKILLing this
+# pod's cgroup on talos-3vy-yfe (222 restarts / 179 OOM kills in one hour, while
+# the node still had ~10Gi free). Upstream bug siderolabs/talos#12526, which
+# names cilium as the primary victim.
+#
+# Its default ranking expression is:
+#   memory_max.hasValue() ? 0.0
+#     : {Besteffort:1.0, Burstable:0.5, Guaranteed:0.0, Podruntime:0.0, System:0.0}[class]
+#       * memory_current
+#
+# So a Guaranteed pod scores 0.0 and is never selected. QoS is evaluated across
+# EVERY container including init containers, so all three resource blocks below
+# must set requests == limits for cpu AND memory -- setting only `resources`
+# leaves the pod Burstable (coefficient 0.5) and still killable.
+#
+# CPU requests deliberately stay at their current values: lg5 is already at ~91%
+# of allocatable CPU requests, and raising them risks leaving this DaemonSet
+# unschedulable there, which would take out CNI on that node. Init container
+# requests don't sum with app containers (effective = max(init, sum(containers))),
+# so these add no scheduling pressure. Steady state is ~120-230Mi and ~120-135m.
 resources:
   requests:
     cpu: 250m
-    memory: 768Mi
+    memory: 1Gi
   limits:
-    memory: 4Gi
+    cpu: 250m
+    memory: 1Gi
+
+initResources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
+
+# The install-cni-binaries init container reads cni.resources, not initResources,
+# so it needs matching requests/limits too or the pod stays Burstable.
+cni:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
 
 # Increase API rate limits for L2 announcer lease management
 # Formula: QPS = #services * (1 / leaseRenewDeadline)
