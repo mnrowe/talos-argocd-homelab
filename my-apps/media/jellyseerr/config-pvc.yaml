@@ -5,6 +5,9 @@ metadata:
   namespace: jellyseerr
   labels:
     backup: "daily"
+    backup-run-as-user: "1000"
+    backup-run-as-group: "1000"
+    backup-fs-group: "1000"
 spec:
   accessModes:
     - ReadWriteOnce
